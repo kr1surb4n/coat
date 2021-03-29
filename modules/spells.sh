@@ -8,7 +8,7 @@ export GIT_COMMANDS_FILE=~/.coat/storage/git_commands
 unalias spell_find 2>/dev/null                                                 
 
 function eval_line_with_fzf {
-    command=$(cat $1 | fzf --print-query)
+    command=$(cat $1 | fzf)
 	eval $command
     # xdotool type "${command}"
 }
