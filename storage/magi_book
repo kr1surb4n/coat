@@ -58,6 +58,8 @@ echo "save current location in teleporter"; bookmarkfolder
  
 echo "change author and email in git repo"; git filter-branch -f --env-filter "GIT_AUTHOR_NAME='Oren'; GIT_AUTHOR_EMAIL='redcat7@gmail.com'; GIT_COMMITTER_NAME='Przemek'; GIT_COMMITTER_EMAIL='przemyslaw.kot@gmail.com';" HEAD
 
+echo "no output"; echo "dupa" & 2>/dev/null 1>&2
+
 echo "show manuals"; fmans
 echo "edit spells"; spelledit
 echo "edit git spells"; nano $GIT_COMMANDS_FILE
