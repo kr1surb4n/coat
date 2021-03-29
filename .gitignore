@@ -9,6 +9,9 @@ lib/fzf
 storage/bookmarks
 storage/spot
 
+# shell
+.envrc
+
 #editor
 .idea
 
