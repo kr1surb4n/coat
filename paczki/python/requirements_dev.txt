@@ -1,6 +1,6 @@
 -r requirements.txt
 
-dotenv
+python-dotenv
 pip
 bump2version
 wheel
