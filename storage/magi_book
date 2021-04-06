@@ -65,6 +65,7 @@ echo "change author and email in git repo"; git filter-branch -f --env-filter "G
 
 echo "no output"; echo "dupa" & 2>/dev/null 1>&2
 
+echo "edit teleports"; nano $TELEPORTS
 echo "show manuals"; fmans
 echo "edit spells"; spelledit
 echo "edit git spells"; nano $GIT_COMMANDS_FILE
