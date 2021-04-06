@@ -16,5 +16,8 @@ export HISTFILESIZE=10000
 # append every command
 # export PROMPT_COMMAND="${PROMPT_COMMAND}; history -a"
 
+# batcat  fails without it
+export BAT_PAGER="less -RF"
+
 # append to bash history
 shopt -s histappend
