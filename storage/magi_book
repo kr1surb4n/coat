@@ -91,3 +91,5 @@ echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
 find . -type f | awk -F. '!a[$NF]++{print $NF}'
 
 watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
+ sudo apt --fix-broken install
+ apt-cache search tdd
