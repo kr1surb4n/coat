@@ -65,6 +65,7 @@ echo "change author and email in git repo"; git filter-branch -f --env-filter "G
 
 echo "no output"; echo "dupa" & 2>/dev/null 1>&2
 
+echo "edit teleports"; nano $TELEPORTS
 echo "show manuals"; fmans
 echo "edit spells"; spelledit
 echo "edit git spells"; nano $GIT_COMMANDS_FILE
@@ -91,5 +92,9 @@ echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
 find . -type f | awk -F. '!a[$NF]++{print $NF}'
 
 watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
- sudo apt --fix-broken install
- apt-cache search tdd
+
+echo "fix broken"; sudo apt --fix-broken install
+echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
+
+echo "rename i3"; i3-rename
+

@@ -1,18 +1,26 @@
 #!/bin/bash
+set -o pipefail
+
 export MAGI_BOOK=~/.coat/storage/magi_book
 export SHELL_SNIPPETS=~/.coat/storage/shell_snippets
 export DIRTY_NOTES=~/.coat/storage/dirty_notes
 export NET_SPELLS=~/.coat/storage/spells/network
 export GIT_COMMANDS_FILE=~/.coat/storage/git_commands
+export TELEPORTS=$PATH_TO_COAT/storage/teleports
 
-unalias spell_find 2>/dev/null                                                 
+unalias spell_find 2>/dev/null
 
 function eval_line_with_fzf {
-    command=$(cat $1 | fzf --print-query)
-	eval $command
+    command=$(cat $1 | fzf)
+	eval "${command}"
     # xdotool type "${command}"
 }
 
+function connect_with_ssh {
+	exec $(cat $1 | fzf)
+}
+
+alias teleports='exec $(cat $TELEPORTS|fzf)'
 alias kit='eval_line_with_fzf $GIT_COMMANDS_FILE'
 alias spellcast='eval_line_with_fzf $MAGI_BOOK'
 alias sp='spellcast'

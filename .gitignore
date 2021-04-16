@@ -8,6 +8,7 @@ lib/fzf
 # bookmarks
 storage/bookmarks
 storage/spot
+storage/teleports
 
 # shell
 .envrc

@@ -1,5 +1,6 @@
 -r requirements.txt
 
+python-dotenv
 pip
 bump2version
 wheel
@@ -29,3 +30,5 @@ bandit
 
 autoflake
 isort
+mypy
+
