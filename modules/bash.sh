@@ -48,8 +48,9 @@ function cd {
   else
     builtin cd "$@"
   fi
-
+	
   pwd > ~/temp/current_dir
+  ls
 }
 
 # -------------------------------------------------------------------
