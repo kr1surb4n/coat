@@ -92,6 +92,10 @@ echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
 find . -type f | awk -F. '!a[$NF]++{print $NF}'
 
 watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
+
+echo "fix broken"; sudo apt --fix-broken install
+echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
+
 echo "rename i3"; i3-rename
 
 echo "most common commands"; history | awk '{print $2}' | sort | uniq -c | sort -rn | head
