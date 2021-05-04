@@ -6,7 +6,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-
 alias lastline='tail -n 1'
 alias lastcommand='lastline ~/.bash_history'
 
