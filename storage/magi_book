@@ -95,6 +95,6 @@ watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
 
 echo "fix broken"; sudo apt --fix-broken install
 echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
-
+echo "job search browser"; foxer job_search
 echo "rename i3"; i3-rename
 
