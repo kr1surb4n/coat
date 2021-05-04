@@ -10,6 +10,11 @@ export TELEPORTS=$PATH_TO_COAT/storage/teleports
 
 unalias spell_find 2>/dev/null
 
+
+#function eval_line_with_fzf {
+#	cat $1 | fzf | exec
+#}
+
 function eval_line_with_fzf {
     command=$(cat $1 | fzf)
 	eval "${command}"

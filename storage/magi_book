@@ -98,3 +98,6 @@ echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
 echo "job search browser"; foxer job_search
 echo "rename i3"; i3-rename
 
+echo "most common commands"; history | awk '{print $2}' | sort | uniq -c | sort -rn | head
+echo "show largest directories"; du -hs */ | sort -hr | head
+echo "show what uses internet"; ss -p
