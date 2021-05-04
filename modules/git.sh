@@ -62,26 +62,26 @@ fco() {
     git checkout $(awk '{print $2}' <<<"$target" )
 }
 
+# this function has to be in a file inside /COAT/lib
+# cause the watchmedo does not see the function (bin/sh reports error)
+#
+# function autosave {  
+#  if [[ "${git_branch}" -eq "working" ]]; then
+#    git add -u && git commit -m "autosave $(date +%D%H%M%S)"
+#  fi
+# }
+
 alias makeworking='git checkout -b working'
 alias removeworking='git branch -D working'
 alias setcurrentbranch='export CURRENT_BRANCH=$git_branch'
 
-alias startnewwork='setcurrentbranch; removeworking; makeworking;'
-alias startnewbranch='git checkout -b $1'
+alias newwork='setcurrentbranch; removeworking; makeworking;'
+alias gnb='git checkout -b $1'
 
-alias showgitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
-alias squashcurrent='git rebase -i $(showgitlogs|fzf|awk "{ print $2 }")'
-
-
-
-
-
-
-
-
-
-
-
+alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
+alias shortlogs='git log --pretty=oneline --abbrev-commit'
+alias squashcurrent='git rebase -i $(shortlogs|fzf|awk "{print $1}")'
+alias mergeworking='git checkout $CURRENT_BRANCH && git rebase working'
 
 # recite 'about-alias'
 # about-alias 'common git abbreviations'
@@ -156,6 +156,7 @@ alias gta="git tag -a"
 alias gtd="git tag -d"
 alias gtl="git tag -l"
 alias gpatch="git format-patch -1"
+
 # From http://blogs.atlassian.com/2014/10/advanced-git-aliases/
 # Show commits since last pull
 alias gnew="git log HEAD@{1}..HEAD@{0}"
@@ -169,8 +170,10 @@ alias gstd="git stash drop"
 alias gstl="git stash list"
 alias gstp="git stash pop"
 alias gh='cd "$(git rev-parse --show-toplevel)"'
+
 # Show ignored files
 alias gi='git ls-files . --ignored --exclude-standard --others'
+
 # show untracked files
 alias gu='git ls-files . --exclude-standard --others'
 

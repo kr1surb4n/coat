@@ -41,9 +41,6 @@ echo "use Cookiecutter"; makecookie
 
 echo "save folder to bookmarks"; bookmarkfolder
 
-echo "start autocommit"; auto-commit
-echo "stop autocommit"; stop-autocommit
-
 echo "git spells"; kit
 echo "shell spells"; shellsnip
 echo "ansible spells"; ansible_command
@@ -91,7 +88,9 @@ echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
 
 find . -type f | awk -F. '!a[$NF]++{print $NF}'
 
-watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
+echo "run python tests"; watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
+echo "start autosave"; watchmedo shell-command -W --patterns="*" --recursive --command='autosave' .
+
 
 echo "fix broken"; sudo apt --fix-broken install
 echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
