@@ -6,6 +6,11 @@
 CONTAINER_NAME=container-name
 IMAGE_NAME=image_name
 
+up:
+	docker-compose -d up
+down:
+	docker-compose down
+
 start:
 	docker start $(CONTAINER_NAME)
 
@@ -37,12 +42,7 @@ rebuild: stop remove-container remove-image remove-volumes image
 
 
 run:
-	docker run \
-	 -v /home/blue/range/jenkins_home:/var/jenkins_home \
-	 -v /var/run/docker.sock:/var/run/docker.sock \
-	 -v /usr/bin/docker:/usr/bin/docker \
-	 --name="$(CONTAINER_NAME)" \
-	 $(IMAGE_NAME)
+	echo "Implement me in local Makefile"
 
 docker-clean: clean
 	docker-compose rm

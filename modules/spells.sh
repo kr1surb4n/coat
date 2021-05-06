@@ -11,28 +11,36 @@ export TELEPORTS=$PATH_TO_COAT/storage/teleports
 unalias spell_find 2>/dev/null
 
 
-#function eval_line_with_fzf {
-#	cat $1 | fzf | exec
-#}
-
 function eval_line_with_fzf {
     command=$(cat $1 | fzf)
 	eval "${command}"
     # xdotool type "${command}"
 }
 
+function type_line_with_fzf {
+    command=$(cat $1 | fzf)
+	xdotool type "${command}"
+}
+
 function connect_with_ssh {
 	exec $(cat $1 | fzf)
 }
 
+# choose host to go
 alias teleports='exec $(cat $TELEPORTS|fzf)'
+
+# choose git command to use
 alias kit='eval_line_with_fzf $GIT_COMMANDS_FILE'
-alias spellcast='eval_line_with_fzf $MAGI_BOOK'
+
+# cast a spell
+alias spellcast='eval_line_with_fzf $MAGI_BOOK'  # ALT + s
 alias sp='spellcast'
 
+# modify a spell
+alias spellforge='type_line_with_fzf $MAGI_BOOK' # ALT + w
 
-alias shellsnip='eval_line_with_fzf $SHELL_SNIPPETS'
-alias netspells='eval_line_with_fzf $NET_SPELLS'
+alias shellsnip='eval_line_with_fzf $SHELL_SNIPPETS' # ALT + b
+alias netspells='eval_line_with_fzf $NET_SPELLS' # ALT + n
 
 
 ansible_command() {
@@ -52,23 +60,6 @@ z() {
   dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
 }
 
-
-fkill() {
-    local pid 
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi  
-
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs kill -${1:-9}
-    fi  
-}
-
-
-
 spellsave () {
     history | fzf | awk -e '{ $1=""; print $0 }' >> $MAGI_BOOK
 }
@@ -76,10 +67,10 @@ spellsave () {
 dirtynotes() {
     history | fzf | awk -e '{ $1=""; print $0 }' >> $DIRTY_NOTES
 }
+
 cleardirtynotes() {
     > $DIRTY_NOTES
 }
-
 
 alias spelledit='nano $MAGI_BOOK'
 alias linkdocs='find ~/docs/ -path *.git -prune -o -type f -print | fzf | xargs ln -s'

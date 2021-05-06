@@ -1,16 +1,37 @@
 #!/bin/bash
 
-auto-commit() {
-      gitwatch.sh -l 2 $(pwd) &>/dev/null &disown
-      echo $! > .autosave
-}
+alias g='git'
+
+# working branch and autosave functions
+
+# this function has to be in a file inside /COAT/lib
+# cause the watchmedo does not see the function (bin/sh reports error)
+#
+# function autosave {  
+#  if [[ "${git_branch}" -eq "working" ]]; then
+#    git add -u && git commit -m "autosave $(date +%D%H%M%S)"
+#  fi
+# }
+
+# working branch
+alias makeworking='git checkout -b working'
+alias removeworking='git branch -D working'
+alias setcurrentbranch='export CURRENT_BRANCH=$git_branch'
+
+# switch to working / start work
+alias newwork='setcurrentbranch; removeworking; makeworking;'
+
+alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
+alias shortlogs='git log --pretty=oneline --abbrev-commit'
+
+# squash current branch (working) -> will change all "autosave ..." commits into what have you done
+alias squashcurrent='git rebase -i $(shortlogs|fzf|awk "{print $1}")'
+
+# finish your work, rebase stuff
+alias mergeworking='git checkout $CURRENT_BRANCH && git rebase working'
 
 alias branch='git rev-parse --abbrev-ref HEAD 2> /dev/null'
-
-alias git-autocommit='auto-commit'
-alias show-autocommit='ps ax | grep gitwatch.sh'
-alias stop-autocommit='kill -s KILL $(cat .autosave) && rm .autosave'
-alias stop-commits=''
+alias gnb='git checkout -b $1'
 
 
 find_git_branch() {
@@ -62,27 +83,6 @@ fco() {
     git checkout $(awk '{print $2}' <<<"$target" )
 }
 
-# this function has to be in a file inside /COAT/lib
-# cause the watchmedo does not see the function (bin/sh reports error)
-#
-# function autosave {  
-#  if [[ "${git_branch}" -eq "working" ]]; then
-#    git add -u && git commit -m "autosave $(date +%D%H%M%S)"
-#  fi
-# }
-
-alias makeworking='git checkout -b working'
-alias removeworking='git branch -D working'
-alias setcurrentbranch='export CURRENT_BRANCH=$git_branch'
-
-alias newwork='setcurrentbranch; removeworking; makeworking;'
-alias gnb='git checkout -b $1'
-
-alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
-alias shortlogs='git log --pretty=oneline --abbrev-commit'
-alias squashcurrent='git rebase -i $(shortlogs|fzf|awk "{print $1}")'
-alias mergeworking='git checkout $CURRENT_BRANCH && git rebase working'
-
 # recite 'about-alias'
 # about-alias 'common git abbreviations'
 
@@ -101,7 +101,6 @@ alias gpristine='git reset --hard && git clean -dfx'
 # alias gclean='git clean -fd'
 alias gm="git merge"
 alias gmv='git mv'
-alias g='git'
 alias get='git'
 alias gs='git status'
 alias gss='git status -s'

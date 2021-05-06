@@ -12,6 +12,11 @@ alias lastcommand='lastline ~/.bash_history'
 alias updatebash='source ~/.bashrc'
 alias editbash='nano ~/.bashrc'
 
+open_nautilus () {
+  nautilus `pwd` &>/dev/null
+}
+
+
 # -------------------------------------------------------------------
 # err: error message along with a status information
 #
@@ -29,7 +34,9 @@ err() {
 
 # -------------------------------------------------------------------
 # cd: this will overwrite the default "cd"-command
-
+#
+#     saves current position to ~/temp/current_dir
+#     will run ls after
 function cd {
   export BACK="$(pwd)"
 
@@ -49,7 +56,7 @@ function cd {
   fi
 	
   pwd > ~/temp/current_dir
-  ls
+  ls --color
 }
 
 # -------------------------------------------------------------------
@@ -1260,72 +1267,6 @@ digga()
     return 1
   else
     dig +nocmd "$1" ANY +multiline +noall +answer
-  fi
-}
-
-# -------------------------------------------------------------------
-# gid: Install Grunt plugins and add them as `devDependencies` to `package.json`
-#
-# usage: gid contrib-watch contrib-uglify
-#gid()
-#{
-#  npm install --save-dev "${*/#/grunt-}"
-#}
-
-# -------------------------------------------------------------------
-# gi: Install Grunt plugins and add them as `dependencies` to `package.json`
-#
-# usage: gi contrib-watch contrib-uglify
-#gi()
-#{
-#  npm install --save "${*/#/grunt-}"
-#}
-
-# -------------------------------------------------------------------
-# `m`: with no arguments opens the current directory in TextMate, otherwise
-# opens the given location
-m()
-{
-  if [ $# -eq 0 ]; then
-    mate .
-  else
-    mate "$@"
-  fi
-}
-
-# -------------------------------------------------------------------
-# `s`: with no arguments opens the current directory in Sublime Text, otherwise
-# opens the given location
-s()
-{
-  if [ $# -eq 0 ]; then
-    subl -a .
-  else
-    subl -a "$@"
-  fi
-}
-
-# -------------------------------------------------------------------
-# `a`: with no arguments opens the current directory in Atom Editor, otherwise
-# opens the given location
-a()
-{
-  if [ $# -eq 0 ]; then
-    atom .
-  else
-    atom "$@"
-  fi
-}
-
-# -------------------------------------------------------------------
-# `v`: with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-v()
-{
-  if [ $# -eq 0 ]; then
-    vim .
-  else
-    vim "$@"
   fi
 }
 

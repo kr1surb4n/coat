@@ -8,15 +8,15 @@ export PATH_TO_COAT=~/.coat
 # variables go first
 source $PATH_TO_COAT/modules/variables.sh
 
-# fuzzy search
-# TODO change that commented code into timing function
-#start=`date +%s`
+# fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# fzf based git client
 source $PATH_TO_COAT/lib/forgit/forgit.plugin.sh
+
+# foxer
 export PATH="$PATH:$PATH_TO_COAT/lib/foxer"
-#end=`date +%s`
-#runtime=$((end-start))
-#echo $runtime
+
 
 #########################
 # autocomplete
@@ -48,6 +48,7 @@ source ~/.coat/modules/bookmarks.sh
 source ~/.coat/modules/cookiecutter.sh
 source ~/.coat/modules/shortcuts.sh
 
+# TODO
 # prompt is going last
 # you can use stuff from other modules here
 source ~/.coat/modules/prompt.sh
