@@ -1,19 +1,14 @@
-# this is supposedly an installation file
-# i write here what needs to be done
-
 
 # install ubuntu packages
+cat packages/apt_packages | xargs sudo apt -mfy install
 
 # install python packages
-
+pip3 install -r packages/python3_packages
 
 # make folders
 mkdir ~/archive ~/bin ~/docs ~/range ~/workshops ~/library ~/temp ~/Portal ~/sync ~/junkyard
 
 # pull submodules
-# this will pull :
-# fzf
-# forgit (included in coat.sh)
 git submodule update --init
 
 # run fzf install
@@ -27,8 +22,3 @@ source ~/.bashrc
 > $PATH_TO_COAT/storage/teleports
 > $PATH_TO_COAT/storage/spot
 > $PATH_TO_COAT/storage/bookmarks
-
-# install: TODO where are 
-# gitwatch
-# python
-# php
