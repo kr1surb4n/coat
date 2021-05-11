@@ -1,10 +1,17 @@
 #!/bin/bash
+
+# current location copy&paste
 export SPOT_FILE=~/.coat/storage/spot
+
 alias mark='pwd > $SPOT_FILE'
 alias spot='cat $SPOT_FILE'
 alias goto='cd `spot`'
 
-# folder bookmarks
+# folder bookmarks with fzf
+# 
+# ALT + g - open the bookmarks
+# see shourtcuts.sh     
+
 export FOLDER_BOOKMARK_FILE=~/.coat/storage/bookmarks
 alias bookmarkfolder='pwd >> $FOLDER_BOOKMARK_FILE'
 

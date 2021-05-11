@@ -1,4 +1,0 @@
-* board
-** in
-*** create symbolic links to ~/.emacs.d files
-*** add creating the symbolic links for emacs in install.sh
