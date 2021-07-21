@@ -14,6 +14,8 @@ echo "working"; foxer working
 echo "searching"; foxer searching
 echo "funs"; foxer funs
 
+echo "reload bash"; source ~/.bashrc
+
 sudo useradd -G postgres,mysql,git,docker,ssh -m -p "$(fill 'password: ')" -s /bin/bash jerry
 
 echo "virtualbox squid postgresql mysql openvpn" | xargs -I {} sudo service {} stop
@@ -102,3 +104,12 @@ echo "show largest directories"; du -hs */ | sort -hr | head
 echo "show what uses internet"; ss -p
 
 echo "all pc names"; cat /etc/os-release; echo ; lsb_release -a ; echo ; hostnamectl ; echo ; uname -r 
+echo "load kris keys"; ssh-add ~/.ssh/github/id_github_kris
+echo "copy chrome profile"; sudo rsync -av .config/google-chrome profiles/browsers/airflow-gc
+echo "copy firefox profile"; sudo rsync -av .mozilla/firefox/gpi768bj.default-release profiles/browsers/devops-ff
+echo "open browser"; foxer "$(ls $HOME/profiles/browsers | while read folder ; do echo "${folder%-ff}" ; done | while read folder; do echo "${folder%-gc}" ; done | fzf)" &
+ cat log | awk -e '{for(i=6; i<=NF; ++i) printf "%s ", $i; print ""}'
+
+echo "set sticky bit"; chmod +t TARGET_PATH
+echo "set sticky bit"; chmod 1000 TARGET_PATH
+echo "remove sticky bit"; chmod -t TARGET_PATH; chmod 0777 TARGET_PATH

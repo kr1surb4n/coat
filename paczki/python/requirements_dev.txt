@@ -1,5 +1,6 @@
 -r requirements.txt
 
+argh
 python-dotenv
 pip
 bump2version
@@ -15,12 +16,14 @@ black
 pycco
 pycodestyle
 pylama
+colorama
 
+behave
 pytest
 pytest-runner
 pyflakes
 pylint
-ptw
+pytest-watch
 factory-boy
 # sudo python3 -m easy_install clonedigger
 

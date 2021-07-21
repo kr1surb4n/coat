@@ -11,11 +11,35 @@ alias lastcommand='lastline ~/.bash_history'
 
 alias updatebash='source ~/.bashrc'
 alias editbash='nano ~/.bashrc'
+alias ltar="tar -ztvf"
+alias untar="tar -zxvf"
+alias atar="tar -cvzf"
+
+alias inf="uname -sr && uptime| sed 's/ //' && sensors|grep Pack && \
+           lscpu|grep 'CPU MHz:' && acpi && \
+           echo -n 'Memory in use: ' && free -m|grep Mem|\
+           awk '{print \$3+\$5\" megs\"}'"
+
+alias zzz="systemctl suspend"
 
 open_nautilus () {
   nautilus `pwd` &>/dev/null
 }
 
+
+# show posix command reference
+function posix {
+  if [ -z "$1" ]; then
+    (dillo "$HOME/docs/posix-2018/idx/utilities.html" >/dev/null &)
+  else
+    HTMLFILE="$HOME/docs/posix-2018/utilities/$1.html"
+    if [ -s "$HTMLFILE" ]; then
+      (dillo "$HTMLFILE" >/dev/null &)
+    else
+      echo "No matching file for '$1'"
+    fi
+  fi
+}
 
 # -------------------------------------------------------------------
 # err: error message along with a status information
