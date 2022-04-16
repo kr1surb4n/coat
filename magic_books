@@ -1,0 +1,430 @@
+echo "testing"; echo "$(fill 'podaj tekst: ')"; mkdir "$(fill 'to bedzie folder: ')"
+echo "test argument"; echo "\"1: ${1}\" \"2: ${2}\" \"3: ${3}\" \"4: ${4}\" \"5: ${5}\"  "
+
+ansible localhost -a 'ping -w 1 192.168.8.108'
+ansible localhost -a 'whoami' -u git
+ansible localhost -a 'whoami' -u jerry
+
+mysql -u username -p database_name < file.sql
+
+echo "reverse grep search"; grep -vP PERL_REGEXP
+echo "perl grep"; grep -P PERL REGEXP
+
+docker container ls
+docker container ls -a
+
+echo "last used files"; ls -ratcl
+echo "last changed files today"; find . -ctime 0 | sort -r
+echo "last changed files last 40 days"; find . -ctime -40 | sort -r
+echo "last modified files last 40 days"; find . -mtime -40 | sort -r
+
+echo "ploteczki"; foxer PLOTECZKI
+echo "working"; foxer working
+echo "searching"; foxer searching
+echo "funs"; foxer funs
+
+echo "check what service is under port";  sudo fuser -v 9000/tcp
+
+echo "reload bash"; source ~/.bashrc
+
+sudo useradd -G postgres,mysql,git,docker,ssh -m -p "$(fill 'password: ')" -s /bin/bash jerry
+
+echo "virtualbox squid postgresql mysql openvpn" | xargs -I {} sudo service {} stop
+sudo update-alternatives --config python
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+
+echo "scan network"; sudo nmap -sS 192.168.8.*
+echo "show apps connections with ports"; netstat -A inet -pa
+echo "show routing table"; netstat -r
+ 
+echo "git-remove files set to delete"; gs | grep deleted | awk '{ print  }' | xargs git rm
+echo "make direnv"; direnv allow .; > .envrc
+
+echo "show ips" ifconfig -a | grep inet
+ ls | tr . ' ' | awk '{ print $1 }' | xargs -I{} mv {}.brc {}.sh
+
+echo "search manuals"; fmans
+echo "find process and kill"; fkill
+echo "find and save a command"; spellsave
+echo "save dirty note"; dirtynotes
+echo "clear dirty notes"; cleardirtynotes
+echo "link docs"; linkdocs
+echo "put gitignore"; putgtignore
+echo "use Cookiecutter"; makecookie
+
+echo "save folder to bookmarks"; bookmarkfolder
+
+echo "git spells"; kit
+echo "shell spells"; shellsnip
+echo "ansible spells"; ansible_command
+
+echo "start clocking task"; watson_start
+echo "stop clocking  task"; watson_stop
+
+echo "start python http server :8000"; runserver
+echo "start php server :8000"; php -S 127.0.0.1:8000
+
+echo "mark waypoint here"; mark
+echo "display waypoint name"; spot
+echo "goto waypoint"; goto
+
+echo "teleport to..."; cdg
+echo "save current location in teleporter"; bookmarkfolder
+ 
+echo "change author and email in git repo"; git filter-branch -f --env-filter "GIT_AUTHOR_NAME='Oren'; GIT_AUTHOR_EMAIL='redcat7@gmail.com'; GIT_COMMITTER_NAME='Przemek'; GIT_COMMITTER_EMAIL='przemyslaw.kot@gmail.com';" HEAD
+
+echo "no output"; echo "dupa" & 2>/dev/null 1>&2
+
+echo "edit teleports"; nano $TELEPORTS
+echo "show manuals"; fmans
+echo "edit spells"; spelledit
+echo "edit git spells"; nano $GIT_COMMANDS_FILE
+echo "rename tmux window"; read -ep "Tmux window name: " window_name && tmux rename-window $window_name
+
+echo "reload spells"; source ~/.coat/modules/spells.sh
+echo "reload all/coat"; source ~/.coat/coat.sh
+
+
+echo "show all services"; service --status-all
+echo "add user to sudoers"; sudo usermod -aG sudo user
+echo "add user"; sudo useradd -g ziomeczki -m -p password flowi
+echo "group add"; sudo groupadd ziomeczk
+
+echo "show modified files from last 7 days"; find . -type f -mtime +1 -mtime -7 ! -path "*.git*"
+echo "show modified files from last 30 days"; find . -type f -mtime +1 -mtime -30 ! -path "*.git*"
+echo "show modified files from last 60 days"; find . -type f -mtime +1 -mtime -60 ! -path "*.git*"
+echo "show path where i worked"; find . -maxdepth 2 -type d -mtime +1 -mtime -35 ! -path "*.git*" ! -path "*.venv*"
+
+
+echo "move files of certain type"; rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs Source/ Target/
+echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
+
+find . -type f | awk -F. '!a[$NF]++{print $NF}'
+
+echo "run python tests"; watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
+echo "start autosave"; watchmedo shell-command -W --patterns="*" --recursive --command='autosave' .
+
+
+echo "fix broken"; sudo apt --fix-broken install
+echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
+echo "job search browser"; foxer job_search
+echo "rename i3"; i3-rename
+
+echo "most common commands"; history | awk '{print $2}' | sort | uniq -c | sort -rn | head
+echo "show largest directories"; du -hs */ | sort -hr | head
+echo "show what uses internet"; ss -p
+
+echo "all pc names"; cat /etc/os-release; echo ; lsb_release -a ; echo ; hostnamectl ; echo ; uname -r 
+echo "load kris keys"; ssh-add ~/.ssh/github/id_github_kris
+echo "copy chrome profile"; sudo rsync -av .config/google-chrome profiles/browsers/airflow-gc
+echo "copy firefox profile"; sudo rsync -av .mozilla/firefox/gpi768bj.default-release profiles/browsers/devops-ff
+echo "open browser"; foxer "$(ls $HOME/profiles/browsers | while read folder ; do echo "${folder%-ff}" ; done | while read folder; do echo "${folder%-gc}" ; done | fzf)" &
+ cat log | awk -e '{for(i=6; i<=NF; ++i) printf "%s ", $i; print ""}'
+
+echo "set sticky bit"; chmod +t TARGET_PATH
+echo "set sticky bit"; chmod 1000 TARGET_PATH
+echo "remove sticky bit"; chmod -t TARGET_PATH; chmod 0777 TARGET_PATH
+ firefox --profile ./main_mozilla_profile
+
+echo "diff forlders"; diff -qr folder1/ folder2/
+ sudo update-alternatives --config phpecho "list all"; ls -lta
+
+echo "replace PATH OLD NEW"; replace PATH OLD NEW
+echo "find and copy certain files"; find docs/ -name $1 -exec cp --parents '{}' ~/$2/$3 \;
+echo "find and replace contents"; find . -name "*.php" -exec sed -i -e 's/PLUGIN_NAME/DONATE_PAYU/g' {} +
+echo "find and grep"; find . -type f -iname "*.java" -exec grep -L "something somethin" {} \+
+echo "find and sort by size"; find . -type f  -exec du -h {} + | sort -r -h
+echo "find with date"; find . -type f -ls | grep "$1"
+echo "find newest files"; find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "
+echo "find files with timestamp"; find . -type f -printf '%TY-%Tm-%Td %TH:%TM: %Tz %p\n'| sort -n | tail -n1
+echo "find files with ls data"; find -ls
+
+echo "open nautilus here"; open_nautilus
+echo "show process ids"; processids $@
+echo "kill krush and destroy, a process"; kknd $1
+echo "what the fuck is this"; wtfis $1
+
+echo "replace contents of files"; replace where what with
+
+echo "show last line"; lastline PATH
+echo "show last command"; lastcommand
+
+echo "params to lowercase"; lc word
+echo "params to uppercase"; uc word
+
+echo "convert timestamp to date"; whenis timestamp
+echo "convert html entity to utf8"; htmlEntityToUTF8
+echo "convert utf8 to html entity"; UTF8toHtmlEntity
+
+echo "extract file - any archive"; extract
+
+echo "strip spaces"; stripspace
+
+echo "simple calculator"; calc
+echo "get random int of length"; rand_int
+echo "generate password of length"; passwdgen
+echo "targz a think"; targz
+echo "get the file or dir size"; fs path 
+echo "show all files recursive"; ff
+echo "find text in files"; fstr path 
+echo "create a compresed backup file with date"; file_backup_compressed path
+echo "create a backup of a file"; file_backup path 
+echo "get info about the file"; file_information path
+echo "short url an url"; shorturl url 
+
+echo "syntax highlight a json"; json string 
+echo "escape the utf8 characters to 3byte format"; escape string 
+echo "decode utf8 sequence"; unidecode string 
+
+echo "make a note"; note 'title' 'body'
+echo "show notes"; note_show
+
+echo "show all printable colors"; print_all_colors
+
+echo "tail a file with search highlight"; t path searched 
+echo "show posix docs"; posix
+
+echo "mark this folder"; mark
+echo "print to stdout marked path"; spot
+echo "got to the marked folder"; goto 
+echo "bookmark folder"; bookmarkfolder
+
+echo "run php server"; phpserver
+echo "run python server"; runserver
+
+echo "use left hand mouse"; lefthandmouse
+echo "use right hand mouse"; righthandmouse
+
+echo "use a cookiecutter"; makeacookie
+echo "suspend system"; zzz
+
+echo "print PATH separetly"; echo -e ${PATH//:/\\n}
+echo "reload"; reload
+
+echo "super grep"; sgrep 
+
+
+echo "get iso date"; date_iso_8601
+echo "get YMD date"; date_clean
+echo "get current year"; date_year
+echo "get current month"; date_month
+echo "get current week";date_week
+echo "get current day"; date_day
+echo "get current hour"; date_hour
+echo "get current minute"; date_minute
+echo "get current second"; date_second
+echo "get current time"; date_time
+
+echo "start a timer"; timer
+
+echo "empty trash"; emptytrash
+
+echo "get from clipboard"; getclip
+echo "put to clipboard"; putclip
+
+echo "change decimal to hexadecimal"; dec2hex value
+echo "urldecode"; urldecode
+echo "urlencode"; urlencode
+echo "do rot13"; rot13
+
+
+
+echo "show the system info"; inf
+echo "check connection to the internet"; testConnection
+echo "show mounted devices"; mount_info
+echo "os info"; os-info
+echo "clean the system"; cleanTheSystem
+echo "check if command exists"; command_exists
+echo "show size of the files and folders"; duh path 
+echo "cpu info"; cpuinfo
+
+echo "show process ids"; processids name 
+echo "find the process and kill it"; fkill
+echo "memory info"; meminfo
+
+echo "top memory usage"; psmem
+echo "top memory usage TOP5"; psmem5
+echo "top memory usage TOP10"; psmem10
+
+echo "top cpu usage"; pscpu
+echo "top cpu usage top5"; pscpu5
+echo "top cpu usage top10"; pscpu10
+
+echo "ps for corresponding process"; psx name
+echo "ps for structure"; pst name
+echo "show all my processes"; psmy
+echo "show avg load"; loadavg
+echo "show all partitions"; partitions
+echo "show folder size du"; du
+echo "show biggest files in a folder"; du_overview
+echo "show the full disk usage"; df
+echo "open nautilus"; open_nautilus
+
+echo "open repository in browser"; repo
+
+echo "optimize images in current folder"; optiImages
+echo "list all IPs"; ifconfig -a | grep inet | awk '{ print $2 }'
+echo "get local IP"; ips
+
+echo "scan passively using arp"; sudo netdiscovery -p
+
+echo "show used tcp ports"; netstat_used_local_ports
+echo "get one free tcp port"; netstat_free_local_port
+echo "netstat connection overview"; netstat_connection_overview
+
+echo "sniff on interface"; sniff 
+echo "httpdump on interface"; httpdump
+
+echo "block ip with iptables"; iptablesBlockIP IP
+
+echo "establish ssh connection and write a log"; logssh host 
+echo "show all ssh connections"; lsssh
+
+echo "get cert names listed for a domain"; getcertnames domain.com
+echo "download a page and get info about the download"; httpDebug url 
+echo "show dns settings for a domain"; digga domain.org 
+
+echo "open a location"; o
+
+echo "show tree of files with size and hidden file"; tre
+
+echo "show my external ip"; myip_dns
+echo "show my external ip web"; myip_http
+echo "show dns info with dig"; dnsInfo
+echo "run a speed test"; speedtest
+echo "show ports used bythe application"; lsport
+echo "show ports and more info"; llport
+echo "show only active network listeners"; netlisteners echo "add"; git add -i
+git clone
+git add
+git rm
+git add -p
+git add -A
+git fetch --all --prune
+git fetch --all --prune --tags
+git fetch --all --prune --verbose
+git fetch --all --prune --tags --verbose
+git reset HEAD
+git reset --hard && git clean -dfx
+git clean -fd
+git merge
+git mv
+git
+git
+git status
+git status -s
+git submodule update --init --recursive
+git pull
+git pull upstream master
+git pull --rebase
+git pull && git push
+git fetch && git rebase
+git push
+git push origin
+git push --set-upstream
+git push --set-upstream origin
+git push --set-upstream origin $(git symbolic-ref --short HEAD)
+git push origin master
+git remote
+git remote -v
+git remote add
+git diff
+git diff --staged
+git diff -w "$@" | vim -R -
+git commit -v
+git commit -v -a
+git commit -v -m
+git commit -v -am"
+git commit --interactive
+git branch
+git branch -a
+git branch --track
+git branch -m
+git branch -d
+git branch -D
+git shortlog -sn
+git cherry-pick
+git cherry-pick -x
+git checkout
+git checkout master
+git checkout -b
+git checkout -b
+git checkout --track
+git checkout master; git pull; git branch -D
+git archive --format zip --output
+git branch -D
+git fetch origin -v; git fetch upstream -v; git merge upstream/master
+git log --graph --pretty=oneline --abbrev-commit
+git log --graph --pretty=format:'%C(bold)%h%Creset%C(magenta)%d%Creset %s %C(yellow)<%an> %C(cyan)(%cr)%Creset' --abbrev-commit --date=relative"
+gg --stat
+git shortlog -sn
+git whatchanged
+git tag
+git tag -a
+git tag -d
+git tag -l
+git format-patch -1
+
+git gui
+git commit -S -am
+git stash
+git stash branch
+git stash drop
+git stash list
+git stash pop
+
+echo "Show ignored files"; git ls-files . --ignored --exclude-standard --others
+echo "show untracked files"; git ls-files . --exclude-standard --others
+echo "Show commits since last pull"; git log HEAD@{1}..HEAD@{0}
+echo "Add uncommitted and unstaged changes to the last commit"; git commit -a --amend -C HEAD
+
+echo "checkout git branch"; fbr
+echo "checkout git branch/tag"; fco
+
+echo "make working"; git checkout -b working
+echo "removeworking"; git branch -D working
+
+echo "start working branch cycle"; startnewwork
+
+echo "show git logs"; showgitlogs
+echo "squash current branch"; squashcurrent
+
+
+
+
+docker container ls
+docker container ls -a
+
+docker-compose up
+docker-compose down
+
+read -p 'container: ' container;read -p 'command: ' command; docker-compose exec $container $command
+
+echo "docker clean"; docker-compose rm; docker volume prune
+echo "docker update; docker-compose pull
+echo "docke build"; docker build -t $(IMAGE_NAME):latest .
+echo "clean all volumes"; docker volume rm $(docker volume ls -qf dangling=true); docker volume ls -qf dangling=true | xargs -r docker volume rm
+echo "docker ps"; docker ps
+echo "docker ps -a"; docker ps -a
+echo "remove not working containers"; docker rm $(docker ps -qa --no-trunc --filter "status=exited")
+echo "go to container console"; docker exec -it $(CONTAINER_NAME) /bin/bash
+echo "remove dangling images"; docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+echo "remove images"; docker rmi $(docker images | grep "none" | awk '/ / { print $3 }')
+echo "show networks"; docker network ls
+echo "show bridge networks"; docker network ls | grep "bridge"
+echo "remove bridge networks"; docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }') 
+echo "prune volumes"; docker volume prune
+echo "remove image"; docker rmi $(IMAGE_NAME)
+echo "remove container"; docker rm $(CONTAINER_NAME)
+
+echo "start container"; docker start $(CONTAINER_NAME)
+
+echo "stop container"; docker stop $(CONTAINER_NAME)
+
+echo "restart container"; docker restart $(CONTAINER_NAME)
+
+echo "inspect container"; docker inspect $(CONTAINER_NAME)
+
+echo "display container logs"; docker logs $(CONTAINER_NAME)
+echo "first login"; sudo -u postgres psql
+echo "create user"; sudo createuser -U postgres -d -e -E -l -P -r -s red

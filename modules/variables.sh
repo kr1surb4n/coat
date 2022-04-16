@@ -2,6 +2,12 @@
 export TERM="screen-256color"
 
 export PATH=$PATH:~/bin:~/.coat/lib
+export PATH="$PATH:$PATH_TO_COAT/lib/foxer:/usr/bin/go:~/.config/composer/vendor/laravel/installer/bin:~/.config/composer/vendor/bin"
+export PATH="$PATH:~/.local/bin"
+
+export QUICK_STATUS=$PATH_TO_COAT/storage/status
+
+export GREP_OPTIONS=""
 
 # History
 # control whats ignored

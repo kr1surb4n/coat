@@ -6,7 +6,6 @@ TEST_FOLDERS = tests
 CODE_FOLDERS = $(APP_NAME) folder $(TEST_FOLDERS)
 
 CODE_PATHS = $(CODE_FOLDERS)
-COVERAGE_PATHS = tests,app,copypaster
 
 REMOTE_GIT_SERVER = git@dupa.pl
 ORIGIN = origin
@@ -15,8 +14,6 @@ MASTER = master
 REQUIREMENTS = requirements.txt
 REQUIREMENTS_FREEZE = requirements_freeze.txt
 REQUIREMENTS_DEV = requirements_dev.txt
-
-BROWSER = firefox
 
 print:
 	@echo $(APP_NAME)
@@ -46,8 +43,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source=$(COVERAGE_PATHS) -m pytest
+	coverage run --source $(CODE_PATHS) -m pytest
 	coverage report -m
+	coverage html
+	$(BROWSER) htmlcov/index.html
 
 check_code:
 	pycodestyle $(CODE_PATHS)
@@ -81,16 +80,8 @@ fmt:
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
-flake: ## check style with flake8
-	flake8 $(CODE_FOLDERS)
-
-mypy:
-	mypy $(CODE_FOLDERS)
-
-lint: 
-	pylint $(CODE_FOLDERS)
-
-pre-commit: clean fmt remove-imports lint test
+lint: ## check style with flake8
+	flake8 $(CODE_PATHS)
 
 requirements:
 	.venv/bin/pip freeze --local > $(REQUIREMENTS_FREEZE)

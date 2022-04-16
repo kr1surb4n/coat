@@ -1,6 +1,6 @@
 #!/bin/bash
-alias ll='ls -alF'
-alias la='ls -A'
+alias ll='ls -AlFctr'
+alias la='ls -Al'
 alias l='ls -CF'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -9,37 +9,17 @@ alias ....='cd ../../..'
 alias lastline='tail -n 1'
 alias lastcommand='lastline ~/.bash_history'
 
-alias updatebash='source ~/.bashrc'
 alias editbash='nano ~/.bashrc'
-alias ltar="tar -ztvf"
-alias untar="tar -zxvf"
-alias atar="tar -cvzf"
-
-alias inf="uname -sr && uptime| sed 's/ //' && sensors|grep Pack && \
-           lscpu|grep 'CPU MHz:' && acpi && \
-           echo -n 'Memory in use: ' && free -m|grep Mem|\
-           awk '{print \$3+\$5\" megs\"}'"
-
-alias zzz="systemctl suspend"
 
 open_nautilus () {
   nautilus `pwd` &>/dev/null
 }
 
+# use vim
+if which vim >/dev/null 2>&1; then
+  alias vi="vim"
+fi
 
-# show posix command reference
-function posix {
-  if [ -z "$1" ]; then
-    (dillo "$HOME/docs/posix-2018/idx/utilities.html" >/dev/null &)
-  else
-    HTMLFILE="$HOME/docs/posix-2018/utilities/$1.html"
-    if [ -s "$HTMLFILE" ]; then
-      (dillo "$HTMLFILE" >/dev/null &)
-    else
-      echo "No matching file for '$1'"
-    fi
-  fi
-}
 
 # -------------------------------------------------------------------
 # err: error message along with a status information
@@ -78,9 +58,11 @@ function cd {
   else
     builtin cd "$@"
   fi
-	
+
   pwd > ~/temp/current_dir
-  ls --color
+
+  # super hiper trick: wtf have i done yesterday?
+  ls --color -actr
 }
 
 # -------------------------------------------------------------------
@@ -1299,33 +1281,33 @@ digga()
 # location
 o()
 {
-  local open_command=""
+  local open_command="open"
 
-  if [[ $SYSTEM_TYPE == "Win10_Linux" ]]; then
-    # Windows using the Linux subsystem
-    alias open='explorer.exe'
-  elif gnome-open --version /dev/null > /dev/null 2>&1; then
-    # GNOME
-    open_command='gnome-open'
-  elif exo-open --version /dev/null > /dev/null 2>&1; then
-    # Xfce
-    open_command='exo-open'
-  elif kde-open --version /dev/null > /dev/null 2>&1; then
-    # KDE
-    open_command='kde-open'
-  elif xdg-open --version /dev/null > /dev/null 2>&1; then
-    # Linux
-    open_command='xdg-open'
-  elif open --version /dev/null > /dev/null 2>&1; then
-    # Mac OS
-    open_command='open'
-  elif cygstart --version /dev/null > /dev/null 2>&1; then
-    # Windows using Cygwin
-    open_command='cygstart'
-  elif [[ $SYSTEM_TYPE == "MINGW" ]]; then
-    # Windows using MinGW
-    open_command='start ""'
-  fi
+  # if [[ $SYSTEM_TYPE == "Win10_Linux" ]]; then
+  #   # Windows using the Linux subsystem
+  #   alias open='explorer.exe'
+  # elif gnome-open --version /dev/null > /dev/null 2>&1; then
+  #   # GNOME
+  #   open_command='gnome-open'
+  # elif exo-open --version /dev/null > /dev/null 2>&1; then
+  #   # Xfce
+  #   open_command='exo-open'
+  # elif kde-open --version /dev/null > /dev/null 2>&1; then
+  #   # KDE
+  #   open_command='kde-open'
+  # elif xdg-open --version /dev/null > /dev/null 2>&1; then
+  #   # Linux
+  #   open_command='xdg-open'
+  # elif open --version /dev/null > /dev/null 2>&1; then
+  #   # Mac OS
+  #   open_command='open'
+  # elif cygstart --version /dev/null > /dev/null 2>&1; then
+  #   # Windows using Cygwin
+  #   open_command='cygstart'
+  # elif [[ $SYSTEM_TYPE == "MINGW" ]]; then
+  #   # Windows using MinGW
+  #   open_command='start ""'
+  # fi
 
   if [ $# -eq 0 ]; then
     open_command_path="."
@@ -1560,3 +1542,15 @@ __svn_branch()
     | awk '{print " ("$1")" }'
 }
 
+function posix {
+  if [ -z "$1" ]; then
+    (dillo "$HOME/docs/posix-2018/idx/utilities.html" >/dev/null &)
+  else
+    HTMLFILE="$HOME/docs/posix-2018/utilities/$1.html"
+    if [ -s "$HTMLFILE" ]; then
+      (dillo "$HTMLFILE" >/dev/null &)
+    else
+      echo "No matching file for '$1'"
+    fi
+  fi
+}

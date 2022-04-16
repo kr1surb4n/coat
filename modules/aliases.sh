@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 
+alias inf="uname -sr && uptime| sed 's/ //' && sensors|grep Pack && \
+           lscpu|grep 'CPU MHz:' && acpi && \
+           echo -n 'Memory in use: ' && free -m|grep Mem|\
+           awk '{print \$3+\$5\" megs\"}'"
+
+alias zzz="systemctl suspend"
+
 # ------------------------------------------------------------------------------
 # | Defaults                                                                   |
 # ------------------------------------------------------------------------------
@@ -15,16 +22,6 @@ alias sudo='sudo '
 alias _='sudo'
 alias please='sudo'
 alias clr='clear'
-
-# use vim
-if which vim >/dev/null 2>&1; then
-  alias vi="vim"
-fi
-
-# add ssh-key to ssh-agent when key exist
-if [ "$SSH_AUTH_SOCK" != "" ] && [ -f ~/.ssh/id_rsa ] && [ -x /usr/bin/ssh-add  ]; then
-  ssh-add -l >/dev/null || alias ssh='(ssh-add -l >/dev/null || ssh-add) && unalias ssh; ssh'
-fi
 
 # Confirm before overwriting
 # --------------------------
@@ -152,7 +149,7 @@ if [ "$TERM" != "dumb" ]; then
     elif ls --color -d . &>/dev/null 2>&1; then
       COLORFLAG="--color"
       if [[ "$SYSTEM_TYPE" == "LINUX" || "$SYSTEM_TYPE" == "CYGWIN" ]]; then
-        COLORFLAG="--color=auto"
+        COLORFLAG="--color"
       fi
     fi
   fi
@@ -218,6 +215,8 @@ if [ "$TERM" != "dumb" ]; then
   fi
 
   # Colorize the grep command output for ease of use (good for log files)
+  alias grepp="grep -P $COLORFLAG"
+  alias grep_notmatching="grep -v $COLORFLAG"
   alias grep="grep $COLORFLAG"
   alias egrep="egrep $COLORFLAG"
   alias fgrep="fgrep $COLORFLAG"
@@ -264,6 +263,8 @@ alias dir="ls --format=vertical $COLORFLAG"
 # displays more information about files and directories
 alias vdir="ls --format=long $COLORFLAG"
 
+
+
 # tree (with fallback)
 if which tree >/dev/null 2>&1; then
   # displays a directory tree
@@ -305,6 +306,7 @@ alias apt-upgrade="sudo apt-get update && sudo apt-get upgrade && sudo apt-get c
 # | Network                                                                    |
 # ------------------------------------------------------------------------------
 
+
 # external ip address
 alias myip_dns="dig +short myip.opendns.com @resolver1.opendns.com"
 alias myip_http="GET http://ipecho.net/plain && echo"
@@ -344,6 +346,8 @@ alias date_minute='date "+%M"'
 alias date_second='date "+%S"'
 alias date_time='date "+%H:%M:%S"'
 
+
+
 # stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
@@ -359,6 +363,8 @@ alias meminfo="free -m -l -t"
 alias psmem="ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6"
 alias psmem5="psmem | tail -5"
 alias psmem10="psmem | tail -10"
+
+
 
 # get top process eating cpu
 alias pscpu="ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 5"
@@ -390,6 +396,8 @@ alias du_overview='du -h | grep "^[0-9,]*[MG]" | sort -hr | less'
 alias df='df -kTh'
 
 
+
+
 # ------------------------------------------------------------------------------
 # | System Utilities                                                           |
 # ------------------------------------------------------------------------------
@@ -402,6 +410,8 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
 # empty the your trash-dir
 alias emptytrash="rm -rfv ~/.local/share/Trash/*"
+
+
 
 # Clipboard access. I created these aliases to have the same command on
 # Cygwin, Linux and OS X.
@@ -416,6 +426,8 @@ elif [[ "$SYSTEM_TYPE" == "MINGW" || "$SYSTEM_TYPE" == "CYGWIN" ]]; then
   alias putclip="cat > /dev/clipboard"
 fi
 
+
+
 # Trim new lines and copy to clipboard
 alias pc="putclip"
 
@@ -427,6 +439,8 @@ alias badge="tput bel"
 # ------------------------------------------------------------------------------
 # | Other                                                                      |
 # ------------------------------------------------------------------------------
+
+
 
 # Language aliases
 alias rb='ruby'
@@ -454,6 +468,8 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 # ROT13-encode text. Works for decoding, too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
 
+
+
 # intuitive map function
 #
 # For example, to list all directories that contain a certain file:
@@ -470,13 +486,10 @@ alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v exten
 # php - package-manager - composer
 alias composer-install="composer install --optimize-autoloader"
 
-# add ssh-key to ssh-agent when key exist
-if [ "$SSH_AUTH_SOCK" != "" ] && [ -f "~/.ssh/id_rsa" ] && [ -x "/usr/bin/ssh-add"  ]; then
-  ssh-add -l >/dev/null || alias ssh='(ssh-add -l >/dev/null || ssh-add) && unalias ssh; ssh'
-fi
+
 
 # keep the ssh connection open for at least two hours
-alias ssh="ssh -o \"ServerAliveInterval 60\" -o \"ServerAliveCountMax 120\""
+# alias ssh="ssh -o \"ServerAliveInterval 60\" -o \"ServerAliveCountMax 120\""
 
 
 # ------------------------------------------------------------------------------
@@ -491,61 +504,62 @@ alias starwars="telnet towel.blinkenlights.nl"
 # | auto-completion (for bash)                                                 |
 # ------------------------------------------------------------------------------
 
+
 # Automatically add completion for all aliases to commands having completion functions
 # source: http://superuser.com/questions/436314/how-can-i-get-bash-to-perform-tab-completion-for-my-aliases
-alias_completion()
-{
-  local namespace="alias_completion"
+# alias_completion()
+# {
+#   local namespace="alias_completion"
 
-  # parse function based completion definitions, where capture group 2 => function and 3 => trigger
-  local compl_regex='complete( +[^ ]+)* -F ([^ ]+) ("[^"]+"|[^ ]+)'
-  # parse alias definitions, where capture group 1 => trigger, 2 => command, 3 => command arguments
-  local alias_regex="alias ([^=]+)='(\"[^\"]+\"|[^ ]+)(( +[^ ]+)*)'"
+#   # parse function based completion definitions, where capture group 2 => function and 3 => trigger
+#   local compl_regex='complete( +[^ ]+)* -F ([^ ]+) ("[^"]+"|[^ ]+)'
+#   # parse alias definitions, where capture group 1 => trigger, 2 => command, 3 => command arguments
+#   local alias_regex="alias ([^=]+)='(\"[^\"]+\"|[^ ]+)(( +[^ ]+)*)'"
 
-  # create array of function completion triggers, keeping multi-word triggers together
-  eval "local completions=($(complete -p | sed -rne "/$compl_regex/s//'\3'/p"))"
-  (( ${#completions[@]} == 0 )) && return 0
+#   # create array of function completion triggers, keeping multi-word triggers together
+#   eval "local completions=($(complete -p | sed -rne "/$compl_regex/s//'\3'/p"))"
+#   (( ${#completions[@]} == 0 )) && return 0
 
-  # create temporary file for wrapper functions and completions
-  rm -f "/tmp/${namespace}-*.XXXXXXXXXX" # preliminary cleanup
-  local tmp_file="$(mktemp "/tmp/${namespace}-${RANDOM}.XXXXXXXXXX")" || return 1
+#   # create temporary file for wrapper functions and completions
+#   rm -f "/tmp/${namespace}-*.XXXXXXXXXX" # preliminary cleanup
+#   local tmp_file="$(mktemp "/tmp/${namespace}-${RANDOM}.XXXXXXXXXX")" || return 1
 
-  # read in "<alias> '<aliased command>' '<command args>'" lines from defined aliases
-  local line; while read line; do
-    eval "local alias_tokens=($line)" 2>/dev/null || continue # some alias arg patterns cause an eval parse error
-    local alias_name="${alias_tokens[0]}" alias_cmd="${alias_tokens[1]}" alias_args="${alias_tokens[2]# }"
+#   # read in "<alias> '<aliased command>' '<command args>'" lines from defined aliases
+#   local line; while read line; do
+#     eval "local alias_tokens=($line)" 2>/dev/null || continue # some alias arg patterns cause an eval parse error
+#     local alias_name="${alias_tokens[0]}" alias_cmd="${alias_tokens[1]}" alias_args="${alias_tokens[2]# }"
 
-    # skip aliases to pipes, boolan control structures and other command lists
-    # (leveraging that eval errs out if $alias_args contains unquoted shell metacharacters)
-    eval "local alias_arg_words=($alias_args)" 2>/dev/null || continue
+#     # skip aliases to pipes, boolan control structures and other command lists
+#     # (leveraging that eval errs out if $alias_args contains unquoted shell metacharacters)
+#     eval "local alias_arg_words=($alias_args)" 2>/dev/null || continue
 
-    # skip alias if there is no completion function triggered by the aliased command
-    [[ " ${completions[*]} " =~ " $alias_cmd " ]] || continue
-    local new_completion="$(complete -p "$alias_cmd")"
+#     # skip alias if there is no completion function triggered by the aliased command
+#     [[ " ${completions[*]} " =~ " $alias_cmd " ]] || continue
+#     local new_completion="$(complete -p "$alias_cmd")"
 
-    # create a wrapper inserting the alias arguments if any
-    if [[ -n $alias_args ]]; then
-     local compl_func="${new_completion/#* -F /}"; compl_func="${compl_func%% *}"
-     # avoid recursive call loops by ignoring our own functions
-     if [[ "${compl_func#_$namespace::}" == $compl_func ]]; then
-       local compl_wrapper="_${namespace}::${alias_name}"
-         echo "function $compl_wrapper {
-           (( COMP_CWORD += ${#alias_arg_words[@]} ))
-           COMP_WORDS=($alias_cmd $alias_args \${COMP_WORDS[@]:1})
-           $compl_func
-         }" >> "$tmp_file"
-         new_completion="${new_completion/ -F $compl_func / -F $compl_wrapper }"
-     fi
-    fi
+#     # create a wrapper inserting the alias arguments if any
+#     if [[ -n $alias_args ]]; then
+#      local compl_func="${new_completion/#* -F /}"; compl_func="${compl_func%% *}"
+#      # avoid recursive call loops by ignoring our own functions
+#      if [[ "${compl_func#_$namespace::}" == $compl_func ]]; then
+#        local compl_wrapper="_${namespace}::${alias_name}"
+#          echo "function $compl_wrapper {
+#            (( COMP_CWORD += ${#alias_arg_words[@]} ))
+#            COMP_WORDS=($alias_cmd $alias_args \${COMP_WORDS[@]:1})
+#            $compl_func
+#          }" >> "$tmp_file"
+#          new_completion="${new_completion/ -F $compl_func / -F $compl_wrapper }"
+#      fi
+#     fi
 
-    # replace completion trigger by alias
-    new_completion="${new_completion% *} $alias_name"
-    echo "$new_completion" >> "$tmp_file"
-  done < <(alias -p | sed -rne "s/$alias_regex/\1 '\2' '\3'/p")
-  source "$tmp_file" && rm -f "$tmp_file"
-}
-if [ -n "$BASH_VERSION" ]; then
-  alias_completion
-fi
-unset -f alias_completion
+#     # replace completion trigger by alias
+#     new_completion="${new_completion% *} $alias_name"
+#     echo "$new_completion" >> "$tmp_file"
+#   done < <(alias -p | sed -rne "s/$alias_regex/\1 '\2' '\3'/p")
+#   source "$tmp_file" && rm -f "$tmp_file"
+# }
+# if [ -n "$BASH_VERSION" ]; then
+#   alias_completion
+# fi
+# unset -f alias_completion
 

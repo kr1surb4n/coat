@@ -1,0 +1,9 @@
+{
+    "require": {
+        "laravel/installer": "^4.2",
+        "laravel/laravel": "^8.6"
+    },
+    "require-dev": {
+        "laravel/sail": "^1.13"
+    }
+}

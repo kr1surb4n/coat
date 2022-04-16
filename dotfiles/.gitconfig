@@ -1,0 +1,9 @@
+[user]
+	email = pk@rightpoint.de
+	name = Przemyslaw Urbanski
+
+[commit]
+	template = ~/.gitmessage
+
+[core]
+	excludesFile = ~/.gitignore

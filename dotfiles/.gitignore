@@ -1,0 +1,6 @@
+.envrc
+tasks.sh
+__snapshots__
+docker-compose.local.yml
+mysail
+.env.testing

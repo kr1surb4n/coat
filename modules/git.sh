@@ -2,16 +2,20 @@
 
 alias g='git'
 
-# working branch and autosave functions
+alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
+alias shortlogs='git log --pretty=oneline --abbrev-commit'
 
-# this function has to be in a file inside /COAT/lib
-# cause the watchmedo does not see the function (bin/sh reports error)
-#
-# function autosave {  
-#  if [[ "${git_branch}" -eq "working" ]]; then
-#    git add -u && git commit -m "autosave $(date +%D%H%M%S)"
-#  fi
-# }
+choose_commit() {
+  shortlogs | fzf | awk -e '{print $1}'
+}
+
+choose_branch() {
+  git branch -l | fzf
+}
+
+choose_remote() {
+  git remote -v | awk -e '{ print $1}' | uniq
+}
 
 # working branch
 alias makeworking='git checkout -b working'
@@ -21,11 +25,8 @@ alias setcurrentbranch='export CURRENT_BRANCH=$git_branch'
 # switch to working / start work
 alias newwork='setcurrentbranch; removeworking; makeworking;'
 
-alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
-alias shortlogs='git log --pretty=oneline --abbrev-commit'
-
 # squash current branch (working) -> will change all "autosave ..." commits into what have you done
-alias squashcurrent='git rebase -i $(shortlogs|fzf|awk "{print $1}")'
+alias squashcurrent='git rebase -i $(shortlogs | fzf | awk "{print $1}")'
 
 # finish your work, rebase stuff
 alias mergeworking='git checkout $CURRENT_BRANCH && git rebase working'
@@ -83,8 +84,10 @@ fco() {
     git checkout $(awk '{print $2}' <<<"$target" )
 }
 
-# recite 'about-alias'
-# about-alias 'common git abbreviations'
+
+alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
+alias shortlogs='git log --pretty=oneline --abbrev-commit'
+
 
 # Aliases
 alias gcl='git clone'
@@ -178,4 +181,3 @@ alias gu='git ls-files . --exclude-standard --others'
 
 alias gsa='git submodule add'
 alias gtls='git tag -l | sort -V'
-

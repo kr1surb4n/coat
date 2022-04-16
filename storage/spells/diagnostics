@@ -1,0 +1,38 @@
+
+echo "show the system info"; inf
+echo "check connection to the internet"; testConnection
+echo "show mounted devices"; mount_info
+echo "os info"; os-info
+echo "clean the system"; cleanTheSystem
+echo "check if command exists"; command_exists
+echo "show size of the files and folders"; duh path 
+echo "cpu info"; cpuinfo
+
+echo "show process ids"; processids name 
+echo "find the process and kill it"; fkill
+echo "memory info"; meminfo
+
+echo "top memory usage"; psmem
+echo "top memory usage TOP5"; psmem5
+echo "top memory usage TOP10"; psmem10
+
+echo "top cpu usage"; pscpu
+echo "top cpu usage top5"; pscpu5
+echo "top cpu usage top10"; pscpu10
+
+echo "ps for corresponding process"; psx name
+echo "ps for structure"; pst name
+echo "show all my processes"; psmy
+echo "show avg load"; loadavg
+echo "show all partitions"; partitions
+echo "show folder size du"; du
+echo "show biggest files in a folder"; du_overview
+echo "show the full disk usage"; df
+
+
+echo "last used files"; ls -ratcl
+echo "last changed files today"; find . -ctime 0 | sort -r
+echo "last changed files last 40 days"; find . -ctime -40 | sort -r
+echo "last modified files last 40 days"; find . -mtime -40 | sort -r
+
+echo "check what service is under port";  sudo fuser -v $(fill 'Port (i.e 9000/tcp): ')

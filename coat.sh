@@ -14,10 +14,6 @@ source $PATH_TO_COAT/modules/variables.sh
 # fzf based git client
 source $PATH_TO_COAT/lib/forgit/forgit.plugin.sh
 
-# foxer
-export PATH="$PATH:$PATH_TO_COAT/lib/foxer"
-
-
 #########################
 # autocomplete
 #########################
@@ -36,16 +32,13 @@ export PATH="$PATH:$PATH_TO_COAT/lib/foxer"
 # modules
 #########################
 
+source ~/.coat/modules/aliases.sh
 source ~/.coat/modules/bash.sh
-source ~/.coat/modules/functions.sh
 source ~/.coat/modules/organization.sh
 source ~/.coat/modules/git.sh
-source ~/.coat/modules/docker.sh
 source ~/.coat/modules/python.sh
 source ~/.coat/modules/coat.sh
 source ~/.coat/modules/spells.sh
-source ~/.coat/modules/bookmarks.sh
-source ~/.coat/modules/cookiecutter.sh
 source ~/.coat/modules/shortcuts.sh
 
 # TODO

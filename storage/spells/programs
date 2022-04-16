@@ -1,0 +1,34 @@
+echo "open nautilus"; open_nautilus
+
+echo "open repository in browser"; repo
+
+echo "optimize images in current folder"; optiImages
+
+echo "show watson projects"; watson projects
+echo "watson new project";watson start -c -b $(fill 'Project name: ') $(fill 'tags (+tag1 +tag2...): ')
+echo "start watson"; echo "Provide list of tags: "; read tags; watson projects | fzf | xargs -I{} watson start {} $tags
+echo "stop watson"; watson stop
+echo "restart watson"; watson restart
+echo "watson show status"; watson status
+echo "watson show log";watson log
+echo "watson cancel start";watson cancel
+
+echo "switch python"; switchpython
+echo "make virtualenv"; makevenv
+echo "activate venv"; makeactive
+echo "format python code"; black
+echo "python install requirements"; installrequirements
+
+echo "insert commands to shell"; insert_line_with_fzf
+echo "connect to ssh hosts"; connect_with_ssh
+
+echo "link docs to project"; linkdocs
+echo "edit docs in emacs"; edocs
+echo "insert git ignore"; putgitignore
+echo "check manual"; fmans
+
+echo "reverse grep search"; grep -vP $(fill 'Perl Regexp: ') $(fill 'Rest: ')
+echo "perl grep"; grep -P $(fill 'Perl Regexp: ') $(fill 'Rest: ')
+
+
+echo "mysql import database"; mysql -u $(fill 'Username: ') -p $(fill 'Database: ') < database.sql

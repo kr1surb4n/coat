@@ -1,13 +1,5 @@
 echo "testing"; echo "$(fill 'podaj tekst: ')"; mkdir "$(fill 'to bedzie folder: ')"
-
-ansible localhost -a 'ping -w 1 192.168.8.108'
-ansible localhost -a 'whoami' -u git
-ansible localhost -a 'whoami' -u jerry
-
-mysql -u username -p database_name < file.sql
-
-docker container ls
-docker container ls -a
+echo "test argument"; echo "\"1: ${1}\" \"2: ${2}\" \"3: ${3}\" \"4: ${4}\" \"5: ${5}\"  "
 
 echo "ploteczki"; foxer PLOTECZKI
 echo "working"; foxer working
@@ -16,7 +8,7 @@ echo "funs"; foxer funs
 
 echo "reload bash"; source ~/.bashrc
 
-sudo useradd -G postgres,mysql,git,docker,ssh -m -p "$(fill 'password: ')" -s /bin/bash jerry
+
 
 echo "virtualbox squid postgresql mysql openvpn" | xargs -I {} sudo service {} stop
 sudo update-alternatives --config python
@@ -113,3 +105,7 @@ echo "open browser"; foxer "$(ls $HOME/profiles/browsers | while read folder ; d
 echo "set sticky bit"; chmod +t TARGET_PATH
 echo "set sticky bit"; chmod 1000 TARGET_PATH
 echo "remove sticky bit"; chmod -t TARGET_PATH; chmod 0777 TARGET_PATH
+ firefox --profile ./main_mozilla_profile
+
+echo "diff forlders"; diff -qr folder1/ folder2/
+ sudo update-alternatives --config php

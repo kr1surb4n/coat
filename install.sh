@@ -4,6 +4,7 @@ cat packages/apt_packages | xargs sudo apt -mfy install
 
 # install python packages
 pip3 install -r packages/python3_packages
+pip install --user tmuxp
 
 # make folders
 mkdir ~/archive ~/bin ~/docs ~/range ~/workshops ~/library ~/temp ~/Portal ~/sync ~/junkyard
@@ -19,6 +20,7 @@ echo "source ${PATH_TO_COAT}/coat.sh" >> ~/.bashrc
 source ~/.bashrc
 
 # create coat files
+> $PATH_TO_COAT/storage/status
 > $PATH_TO_COAT/storage/teleports
 > $PATH_TO_COAT/storage/spot
 > $PATH_TO_COAT/storage/bookmarks
