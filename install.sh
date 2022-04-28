@@ -1,13 +1,15 @@
+#!/bin/bash
+source $HOME/.coatrc
 
+# TODO add additional repositories with software
 # install ubuntu packages
-cat packages/apt_packages | xargs sudo apt -mfy install
+cat $COAT_PACKAGES/apt_packages | xargs sudo apt -mfy install
 
 # install python packages
-pip3 install -r packages/python3_packages
-pip install --user tmuxp
+pip3 install -r $COAT_PACKAGES/python3_packages
 
 # make folders
-mkdir ~/archive ~/bin ~/docs ~/range ~/workshops ~/library ~/temp ~/Portal ~/sync ~/junkyard
+mkdir ~/archive ~/bin ~/docs ~/range ~/workshops ~/library ~/temp ~/Portal ~/sync
 
 # pull submodules
 git submodule update --init
@@ -15,12 +17,12 @@ git submodule update --init
 # run fzf install
 sh lib/fzf/install
 
-# add coat to .bashrc
-echo "source ${PATH_TO_COAT}/coat.sh" >> ~/.bashrc
-source ~/.bashrc
-
 # create coat files
-> $PATH_TO_COAT/storage/status
-> $PATH_TO_COAT/storage/teleports
-> $PATH_TO_COAT/storage/spot
-> $PATH_TO_COAT/storage/bookmarks
+> $COAT_STORAGE/status
+> $COAT_STORAGE/teleports
+> $COAT_STORAGE/spot
+> $COAT_STORAGE/bookmarks
+
+# add coat to .bashrc
+echo "source $HOME/.coatrc" >> ~/.bashrc
+source ~/.bashrc

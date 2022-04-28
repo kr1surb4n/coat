@@ -83,6 +83,34 @@ cleardirtynotes() {
     > $DIRTY_NOTES
 }
 
+export ANSIBLE_PLAYS=~/docs/systems/playbooks
+ansible_command() {
+    #host=$(ansible-inventory -y --list | while read -r line; do echo $line; done | sed -e 's/:.*//g'|fzf)	
+    playbook=$(find $ANSIBLE_PLAYS -type f -name "*.yml" | fzf)
+    ansible-playbook --ask-become-pass $playbook
+}
+export ansible_command
+
+export COOKIES_LIST="$HOME/.coat/storage/cookies"
+
+makecookie() {
+    exec $(cat ${COOKIES_LIST} | fzf)
+}
+
+fkill() {
+    local pid 
+    if [ "$UID" != "0" ]; then
+        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+    else
+        pid=$(ps ax | sed 1d | fzf -m | awk '{print $2}')
+    fi  
+
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi  
+}
+
 alias linkdocs='find ~/docs/ -path *.git -prune -o -type f -print | fzf | xargs ln -s'
 alias edocs='find ~/docs/ -path *.git -prune -o -type f -print | fzf | xargs emacs'
 alias putgitignore='find ~/libraly/gitignores -path *.git -prune -o -type f -print | fzf | xargs -I{} cp "{}" . '

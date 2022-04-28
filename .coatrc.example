@@ -1,0 +1,26 @@
+#!/bin/bash
+
+export PATH_TO_COAT=~/.coat
+export COAT_MODULES=$PATH_TO_COAT/modules
+
+export COAT_STORAGE=$PATH_TO_COAT/storage
+export SPOT_FILE=$PATH_TO_COAT/storage/spot
+export FOLDER_BOOKMARK_FILE=$PATH_TO_COAT/storage/bookmarks
+
+export COAT_PACKAGES=$PATH_TO_COAT/packages
+export COAT_LIBS=$PATH_TO_COAT/libs
+
+source $PATH_TO_COAT/coat.sh
+
+export PATH=$PATH:~/bin:$PATH_TO_COAT/lib
+export PATH="$PATH:$PATH_TO_COAT/lib/foxer:/usr/bin/go:~/.config/composer/vendor/laravel/installer/bin:~/.config/composer/vendor/bin"
+export PATH="$PATH:~/.local/bin"
+export PATH=$PATH:/home/kris/.config/composer/vendor/laravel/installer/bin/
+
+
+
+# TODO add more keys or automatic key search
+# add ssh-key to ssh-agent when key exist
+if [ "$SSH_AUTH_SOCK" != "" ] && [ -f ~/.ssh/id_rsa ] && [ -x /usr/bin/ssh-add  ]; then
+  ssh-add -l >/dev/null || alias ssh='(ssh-add -l >/dev/null || ssh-add) && unalias ssh; ssh'
+fi

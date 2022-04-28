@@ -1,12 +1,7 @@
 #!/bin/bash
 #########################
-# Startup
+# import important components
 #########################
-
-export PATH_TO_COAT=~/.coat
-
-# variables go first
-source $PATH_TO_COAT/modules/variables.sh
 
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -14,34 +9,26 @@ source $PATH_TO_COAT/modules/variables.sh
 # fzf based git client
 source $PATH_TO_COAT/lib/forgit/forgit.plugin.sh
 
-#########################
-# autocomplete
-#########################
-
-# TODO: autocomplete causes major slowdowns
-# load all files with autocomplete
-#AUTOCOMPLETE_FILES="$HOME/.coat/autocomplete/*"
-#for _complete__file in $AUTOCOMPLETE_FILES
-#do
-  # shellcheck disable=SC1090
-#  source "$_complete__file"
-#done
-
+# kill processes
+show_process_id () {
+  ps -ef | grep $1 | awk '{print $2}'
+}
 
 #########################
-# modules
+# load modules
 #########################
 
-source ~/.coat/modules/aliases.sh
-source ~/.coat/modules/bash.sh
-source ~/.coat/modules/organization.sh
-source ~/.coat/modules/git.sh
-source ~/.coat/modules/python.sh
-source ~/.coat/modules/coat.sh
-source ~/.coat/modules/spells.sh
-source ~/.coat/modules/shortcuts.sh
+# variables go first
+source $PATH_TO_COAT/modules/variables.sh
 
-# TODO
+source $PATH_TO_COAT/modules/aliases.sh
+source $PATH_TO_COAT/modules/bash.sh
+source $PATH_TO_COAT/modules/organization.sh
+source $PATH_TO_COAT/modules/git.sh
+source $PATH_TO_COAT/modules/python.sh
+source $PATH_TO_COAT/modules/spells.sh
+source $PATH_TO_COAT/modules/shortcuts.sh
+source $PATH_TO_COAT/modules/autocomplete.sh
+
 # prompt is going last
-# you can use stuff from other modules here
-source ~/.coat/modules/prompt.sh
+source $PATH_TO_COAT/modules/autocomplete.sh

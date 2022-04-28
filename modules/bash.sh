@@ -20,6 +20,26 @@ if which vim >/dev/null 2>&1; then
   alias vi="vim"
 fi
 
+# read input and echo it
+# you can use it to read values in spell
+function fill() {
+	read -ep "$1" variable
+	echo $variable
+}
+
+
+alias processids='show_process_id'
+alias kknd='kill -s KILL'
+
+# run servers
+alias runserver='python -m http.server 8000'
+alias phpserver='php -S 127.0.0.1:8000'
+
+# switch mouse layout
+alias lefthandmouse='xmodmap -e "pointer = 3 2 1"'
+alias righthandmouse='xmodmap -e "pointer = 1 2 3"'
+
+
 
 # -------------------------------------------------------------------
 # err: error message along with a status information
@@ -1524,9 +1544,9 @@ __git_prompt()
 
     [[ -n "${s}" ]] && s=" [${s}]"
 
-    echo " (${branchName})${s}"
+    echo -e "🪵 ${branchName}${s}"
   else
-    return
+    echo -e ""
   fi
 }
 

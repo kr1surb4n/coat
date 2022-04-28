@@ -41,6 +41,12 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec ${SHELL} -l"
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
 # dmesg with readable time
 alias dmesg='dmesg -T'
 

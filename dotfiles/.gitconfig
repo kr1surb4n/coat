@@ -1,9 +1,12 @@
 [user]
-	email = pk@rightpoint.de
-	name = Przemyslaw Urbanski
-
-[commit]
-	template = ~/.gitmessage
-
+	name = Kris Urbanski
+	email = kris@whereibend.space
 [core]
+	autocrlf = input
 	excludesFile = ~/.gitignore
+[push]
+	default = simple
+[cola]
+	spellcheck = false
+[commit]
+	template = /home/kris/.gitmessage

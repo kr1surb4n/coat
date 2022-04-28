@@ -32,6 +32,8 @@ poetry
 poetry-core
 powerline-gitstatus
 powerline-status
+glances
+pydash
 powerline-watson
 pycairo
 pycodestyle
@@ -93,3 +95,4 @@ autoflake
 isort
 mypy
 
+tmuxp

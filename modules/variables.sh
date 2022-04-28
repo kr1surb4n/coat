@@ -1,10 +1,6 @@
 #!/bin/bash
 export TERM="screen-256color"
 
-export PATH=$PATH:~/bin:~/.coat/lib
-export PATH="$PATH:$PATH_TO_COAT/lib/foxer:/usr/bin/go:~/.config/composer/vendor/laravel/installer/bin:~/.config/composer/vendor/bin"
-export PATH="$PATH:~/.local/bin"
-
 export QUICK_STATUS=$PATH_TO_COAT/storage/status
 
 export GREP_OPTIONS=""
@@ -27,3 +23,6 @@ export BAT_PAGER="less -RF"
 
 # append to bash history
 shopt -s histappend
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
