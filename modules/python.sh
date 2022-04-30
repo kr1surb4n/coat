@@ -1,6 +1,5 @@
 #!/bin/bash
 # a hack for virtual envs from Makefile
-export VENV_FOLDER=".venv"
 
 alias switchpython='sudo update-alternatives --config python'
 
