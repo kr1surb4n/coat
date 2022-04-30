@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 export PATH_TO_COAT=~/.coat
 
 export COAT_MODULES=$PATH_TO_COAT/modules
@@ -30,4 +28,7 @@ if [ "$SSH_AUTH_SOCK" != "" ] && [ -f ~/.ssh/id_rsa ] && [ -x /usr/bin/ssh-add  
   ssh-add -l >/dev/null || alias ssh='(ssh-add -l >/dev/null || ssh-add) && unalias ssh; ssh'
 fi
 
+eval "$(direnv hook bash)"
+
 source $PATH_TO_COAT/coat.sh
+

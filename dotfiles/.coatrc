@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_github_kris"
-
 export PATH_TO_COAT=~/.coat
 export COAT_MODULES=$PATH_TO_COAT/modules
 export COAT_STORAGE=$PATH_TO_COAT/storage

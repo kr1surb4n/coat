@@ -1,5 +1,4 @@
 npm install gtop -g
 npm install --save is-my-json-valid
 npm install -g underscore-cli
-//gem install vj
 npm install --global trash-cli

@@ -1,16 +1,6 @@
 #!/bin/bash
 source $HOME/.coatrc
 
-# TODO add additional repositories with software
-# install ubuntu packages
-cat $COAT_PACKAGES/apt_packages | xargs sudo apt -mfy install
-
-# install python packages
-pip3 install -r $COAT_PACKAGES/python3_packages
-
-# make folders
-mkdir ~/archive ~/bin ~/docs ~/range ~/workshops ~/library ~/temp ~/Portal ~/sync
-
 # pull submodules
 git submodule update --init
 
