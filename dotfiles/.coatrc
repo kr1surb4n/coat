@@ -19,7 +19,7 @@ export PATH="$PATH:~/.local/bin"
 export PATH=$PATH:/home/kris/.config/composer/vendor/laravel/installer/bin/
 
 eval "$(direnv hook bash)"
-export PACZEK_FILLINGS=~/.coat/paczki
+export PACZEK_FILLINGS=$PATH_TO_COAT/lib/paczki
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completionexport PATH="$HOME/.pyenv/bin:$PATH"

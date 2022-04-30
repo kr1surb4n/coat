@@ -22,6 +22,7 @@ export PATH=$PATH:/home/kris/.config/composer/vendor/laravel/installer/bin/
 
 export VENV_FOLDER=".venv"
 
+export PACZEK_FILLINGS=$PATH_TO_COAT/lib/paczki
 
 # TODO add more keys or automatic key search
 # add ssh-key to ssh-agent when key exist

@@ -6,3 +6,6 @@
 	path = lib/foxer
 	url = http://github.com/kr1surb4n/foxer.git
 
+[submodule "lib/paczki"]
+	path = lib/paczki
+	url = https://github.com/kr1surb4n/paczki.git
