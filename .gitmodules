@@ -2,10 +2,6 @@
 	path = lib/fzf
 	url = https://github.com/junegunn/fzf.git
 
-[submodule "paczki"]
-        path = paczki
-        url = https://github.com/kr1surb4n/paczki.git
-
 [submodule "lib/foxer"]
 	path = lib/foxer
 	url = http://github.com/kr1surb4n/foxer.git
