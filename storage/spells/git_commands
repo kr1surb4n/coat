@@ -12,6 +12,7 @@ echo "git init submodules";git submodule update --init --recursive
 echo "git rebase to branch"; git rebase $(choose_branch)
 echo "git push branch to origin"; git push origin $(choose_branch)
 echo "git push tags force"; git push --tags -f
+echo "merge unrelated histories"; git pull origin master --allow-unrelated-histories && git merge origin origin/master
 git pull
 git remote
 git remote -v
