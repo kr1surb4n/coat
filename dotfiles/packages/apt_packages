@@ -7,6 +7,7 @@ wget
 openssh-client
 jsonlint
 jupyter-core
+most
 openssh-server
 shellcheck
 indicator-application
