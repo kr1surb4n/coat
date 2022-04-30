@@ -1,9 +1,9 @@
 .DS_Store
 
 #repositories
-paczki
-lib/forgit
-lib/fzf
+#paczki
+#lib/forgit
+#lib/fzf
 
 # bookmarks
 storage/bookmarks
@@ -35,7 +35,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
