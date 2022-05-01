@@ -36,3 +36,5 @@ echo "last changed files last 40 days"; find . -ctime -40 | sort -r
 echo "last modified files last 40 days"; find . -mtime -40 | sort -r
 
 echo "check what service is under port";  sudo fuser -v $(fill 'Port (i.e 9000/tcp): ')
+
+echo "make a diff over files in two folders"; find ansible_lib/ -name "*" | while read afile; do colordiff $afile "docs/${afile}"; done > the_difference_of_ansible_lib
