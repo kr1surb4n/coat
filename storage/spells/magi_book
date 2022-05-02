@@ -1,111 +1,105 @@
-echo "testing"; echo "$(fill 'podaj tekst: ')"; mkdir "$(fill 'to bedzie folder: ')"
-echo "test argument"; echo "\"1: ${1}\" \"2: ${2}\" \"3: ${3}\" \"4: ${4}\" \"5: ${5}\"  "
 
-echo "ploteczki"; foxer PLOTECZKI
-echo "working"; foxer working
-echo "searching"; foxer searching
-echo "funs"; foxer funs
-
-echo "reload bash"; source ~/.bashrc
-
-
-
-echo "virtualbox squid postgresql mysql openvpn" | xargs -I {} sudo service {} stop
-sudo update-alternatives --config python
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
-
-echo "scan network"; sudo nmap -sS 192.168.8.*
-echo "show apps connections with ports"; netstat -A inet -pa
-echo "show routing table"; netstat -r
  
-echo "git-remove files set to delete"; gs | grep deleted | awk '{ print  }' | xargs git rm
-echo "make direnv"; direnv allow .; > .envrc
-
-echo "show ips" ifconfig -a | grep inet
- ls | tr . ' ' | awk '{ print $1 }' | xargs -I{} mv {}.brc {}.sh
-
-echo "search manuals"; fmans
-echo "find process and kill"; fkill
-echo "find and save a command"; spellsave
-echo "save dirty note"; dirtynotes
-echo "clear dirty notes"; cleardirtynotes
-echo "link docs"; linkdocs
-echo "put gitignore"; putgtignore
-echo "use Cookiecutter"; makecookie
-
-echo "save folder to bookmarks"; bookmarkfolder
-
-echo "git spells"; kit
-echo "shell spells"; shellsnip
-echo "ansible spells"; ansible_command
-
-echo "start clocking task"; watson_start
-echo "stop clocking  task"; watson_stop
-
-echo "start python http server :8000"; runserver
-echo "start php server :8000"; php -S 127.0.0.1:8000
-
-echo "mark waypoint here"; mark
-echo "display waypoint name"; spot
-echo "goto waypoint"; goto
-
-echo "teleport to..."; cdg
-echo "save current location in teleporter"; bookmarkfolder
- 
-echo "change author and email in git repo"; git filter-branch -f --env-filter "GIT_AUTHOR_NAME='Oren'; GIT_AUTHOR_EMAIL='redcat7@gmail.com'; GIT_COMMITTER_NAME='Przemek'; GIT_COMMITTER_EMAIL='przemyslaw.kot@gmail.com';" HEAD
-
-echo "no output"; echo "dupa" & 2>/dev/null 1>&2
-
-echo "edit teleports"; nano $TELEPORTS
-echo "show manuals"; fmans
-echo "edit spells"; spelledit
-echo "edit git spells"; nano $GIT_COMMANDS_FILE
-echo "rename tmux window"; read -ep "Tmux window name: " window_name && tmux rename-window $window_name
-
-echo "reload spells"; source ~/.coat/modules/spells.sh
-echo "reload all/coat"; source ~/.coat/coat.sh
-
-
-echo "show all services"; service --status-all
-echo "add user to sudoers"; sudo usermod -aG sudo user
+ansible localhost -a 'ping -w 1 192.168.8.108'
+ansible localhost -a 'whoami' -u git
+ansible localhost -a 'whoami' -u jerry
+ cat log | awk -e '{for(i=6; i<=NF; ++i) printf "%s ", $i; print ""}'
+docker container ls
+docker container ls -a
+echo "add port to iptables"; iptables -I INPUT 1 -i eth0 -p tcp --dport 8080 -j ACCEPT
 echo "add user"; sudo useradd -g ziomeczki -m -p password flowi
-echo "group add"; sudo groupadd ziomeczk
-
-echo "show modified files from last 7 days"; find . -type f -mtime +1 -mtime -7 ! -path "*.git*"
-echo "show modified files from last 30 days"; find . -type f -mtime +1 -mtime -30 ! -path "*.git*"
-echo "show modified files from last 60 days"; find . -type f -mtime +1 -mtime -60 ! -path "*.git*"
-echo "show path where i worked"; find . -maxdepth 2 -type d -mtime +1 -mtime -35 ! -path "*.git*" ! -path "*.venv*"
-
-
-echo "move files of certain type"; rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs Source/ Target/
-echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
-
-find . -type f | awk -F. '!a[$NF]++{print $NF}'
-
-echo "run python tests"; watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
-echo "start autosave"; watchmedo shell-command -W --patterns="*" --recursive --command='autosave' .
-
-
-echo "fix broken"; sudo apt --fix-broken install
-echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
-echo "job search browser"; foxer job_search
-echo "rename i3"; i3-rename
-
-echo "most common commands"; history | awk '{print $2}' | sort | uniq -c | sort -rn | head
-echo "show largest directories"; du -hs */ | sort -hr | head
-echo "show what uses internet"; ss -p
-
+echo "add user to sudoers"; sudo usermod -aG sudo user
 echo "all pc names"; cat /etc/os-release; echo ; lsb_release -a ; echo ; hostnamectl ; echo ; uname -r 
-echo "load kris keys"; ssh-add ~/.ssh/github/id_github_kris
+echo "ansible spells"; ansible_command
+echo "change author and email in git repo"; git filter-branch -f --env-filter "GIT_AUTHOR_NAME='Oren'; GIT_AUTHOR_EMAIL='redcat7@gmail.com'; GIT_COMMITTER_NAME='Przemek'; GIT_COMMITTER_EMAIL='przemyslaw.kot@gmail.com';" HEAD
+echo "check my window manager"; echo $DESKTOP_SESSION
+echo "check the shell variable"; echo $TMUXP_CONFIGDIR
+echo "check what service is under port";  sudo fuser -v 9000/tcp
+echo "clear dirty notes"; cleardirtynotes
 echo "copy chrome profile"; sudo rsync -av .config/google-chrome profiles/browsers/airflow-gc
 echo "copy firefox profile"; sudo rsync -av .mozilla/firefox/gpi768bj.default-release profiles/browsers/devops-ff
-echo "open browser"; foxer "$(ls $HOME/profiles/browsers | while read folder ; do echo "${folder%-ff}" ; done | while read folder; do echo "${folder%-gc}" ; done | fzf)" &
- cat log | awk -e '{for(i=6; i<=NF; ++i) printf "%s ", $i; print ""}'
-
-echo "set sticky bit"; chmod +t TARGET_PATH
-echo "set sticky bit"; chmod 1000 TARGET_PATH
-echo "remove sticky bit"; chmod -t TARGET_PATH; chmod 0777 TARGET_PATH
- firefox --profile ./main_mozilla_profile
-
 echo "diff forlders"; diff -qr folder1/ folder2/
- sudo update-alternatives --config php
+echo "display waypoint name"; spot
+echo "edit git spells"; nano $GIT_COMMANDS_FILE
+echo "edit spells"; spelledit
+echo "edit teleports"; nano $TELEPORTS
+echo "find and save a command"; spellsave
+echo "find me files, dont look into the paths"; find . -name "*file*" -not -path ".git"
+echo "find process and kill"; fkill
+echo "fix broken"; sudo apt --fix-broken install
+echo "funs"; foxer funs
+echo "git-remove files set to delete"; gs | grep deleted | awk '{ print  }' | xargs git rm
+echo "git spells"; kit
+echo "goto waypoint"; goto
+echo "group add"; sudo groupadd ziomeczk
+echo "information about used videdrivers"; vainfo
+echo "job search browser"; foxer job_search
+echo "link docs"; linkdocs
+echo "list biggest files in folder"; du -ha . | sort -n -r | head -n 20
+echo "list memory usage by porcesses, sorted"; for file in /proc/*/status ; do awk '/VmSwap|Name/{printf $2 " " $3}END{ print ""}' $file; done | sort -k 2 -n -r | less
+echo "list memory usage by processes"; for file in /proc/*/status ; do awk '/VmSwap|Name/{printf $2 " " $3}END{ print ""}' $file; done
+echo "load kris keys"; ssh-add ~/.ssh/github/id_github_kris
+echo "make direnv"; direnv allow .; > .envrc
+echo "mark waypoint here"; mark
+echo "most common commands"; history | awk '{print $2}' | sort | uniq -c | sort -rn | head
+echo "move files of certain type"; rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs Source/ Target/
+echo "no output"; echo "dupa" & 2>/dev/null 1>&2
+echo "open browser"; foxer "$(ls $HOME/profiles/browsers | while read folder ; do echo "${folder%-ff}" ; done | while read folder; do echo "${folder%-gc}" ; done | fzf)" &
+echo "perf monitor of intel videocard"; sudo intel_gpu_top
+echo "ploteczki"; foxer PLOTECZKI
+echo "put gitignore"; putgtignore
+echo "reload all/coat"; source ~/.coat/coat.sh
+echo "reload bash"; source ~/.bashrc
+echo "reload spells"; source ~/.coat/modules/spells.sh
+echo "remove a service from autostart";  sudo systemctl disable service
+echo "remove sticky bit"; chmod -t TARGET_PATH; chmod 0777 TARGET_PATH
+echo "rename i3"; i3-rename
+echo "rename tmux window"; read -ep "Tmux window name: " window_name && tmux rename-window $window_name
+echo "run python tests"; watchmedo shell-command -W --patterns="*.py" --recursive --command='make test' .
+echo "save current location in teleporter"; bookmarkfolder
+echo "save dirty note"; dirtynotes
+echo "save folder to bookmarks"; bookmarkfolder
+echo "scan network"; sudo nmap -sS 192.168.8.*
+echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
+echo "searching"; foxer searching
+echo "search manuals"; fmans
+echo "set sticky bit"; chmod 1000 TARGET_PATH
+echo "set sticky bit"; chmod +t TARGET_PATH
+echo "shell spells"; shellsnip
+echo "show all services"; service --status-all
+echo "show apps connections with ports"; netstat -A inet -pa
+echo "show ips" ifconfig -a | grep inet
+echo "show largest directories"; du -hs */ | sort -hr | head
+echo "show manuals"; fmans
+echo "show modified files from last 30 days"; find . -type f -mtime +1 -mtime -30 ! -path "*.git*"
+echo "show modified files from last 60 days"; find . -type f -mtime +1 -mtime -60 ! -path "*.git*"
+echo "show modified files from last 7 days"; find . -type f -mtime +1 -mtime -7 ! -path "*.git*"
+echo "show path where i worked"; find . -maxdepth 2 -type d -mtime +1 -mtime -35 ! -path "*.git*" ! -path "*.venv*"
+echo "show routing table"; netstat -r
+echo "show what uses internet"; ss -p
+echo "start autosave"; watchmedo shell-command -W --patterns="*" --recursive --command='autosave' .
+echo "start clocking task"; watson_start
+echo "start main tmux"; tmuxp load main
+echo "start php server :8000"; php -S 127.0.0.1:8000
+echo "start python http server :8000"; runserver
+echo "start salesapp"; tmuxp load trusc_workshop
+echo "start wp"; tmuxp load wp_workshop
+echo "stop clocking  task"; watson_stop
+echo "teleport to..."; cdg
+echo "test argument"; echo "\"1: ${1}\" \"2: ${2}\" \"3: ${3}\" \"4: ${4}\" \"5: ${5}\"  "
+ echo "testing"; echo "$(fill 'podaj tekst: ')"; mkdir "$(fill 'to bedzie folder: ')"
+echo "testing"; echo "$(fill 'podaj tekst: ')"; mkdir "$(fill 'to bedzie folder: ')"
+echo "update font cache"; fc-cache -vf ~/.fonts
+echo "use Cookiecutter"; makecookie
+echo "virtualbox squid postgresql mysql openvpn" | xargs -I {} sudo service {} stop
+echo "what is my runlevel?"; sudo runlevel
+echo "what window shell am i using"; echo $XDG_CURRENT_DESKTOP
+echo "working"; foxer working
+find . -type f | awk -F. '!a[$NF]++{print $NF}'
+ firefox --profile ./main_mozilla_profile
+ ls | tr . ' ' | awk '{ print $1 }' | xargs -I{} mv {}.brc {}.sh
+mysql -u username -p database_name < file.sql
+sudo update-alternatives --config php
+sudo update-alternatives --config python
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+sudo useradd -G postgres,mysql,git,docker,ssh -m -p "$(fill 'password: ')" -s /bin/bash jerry
