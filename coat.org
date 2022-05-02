@@ -1,8 +1,0 @@
-* coat
-
-so coat is a set of scripts to help you work with the cli.
-the idea is to use change the experience into playing a MUD
-game. the less typing the better. and use of the shell has to
-be like walking and having a coat that is putting itself on you
-without interfering you as you walk. shell should not slow down
-your momentum. 
