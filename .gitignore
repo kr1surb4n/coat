@@ -1,9 +1,7 @@
 .DS_Store
 
-#repositories
-#paczki
-#lib/forgit
-#lib/fzf
+# whoot?????
+._*
 
 # bookmarks
 storage/bookmarks
