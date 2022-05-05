@@ -23,6 +23,7 @@ alias _='sudo'
 alias please='sudo'
 alias clr='clear'
 
+
 # Confirm before overwriting
 # --------------------------
 # I know it is bad practice to override the default commands, but this is for
@@ -33,6 +34,8 @@ alias clr='clear'
 #alias cp='cp -i'
 #alias mv='mv -i'
 #alias ln='ln -i'
+#alias pip='tee -a ~/.dotfiles/packages/working_py3_packages|pip3'
+#alias apt='tee -a ~/.dotfiles/packages/working_apt_packages|apt'
 
 alias rm='rm -I'     # 'rm -i' prompts for every file
 
