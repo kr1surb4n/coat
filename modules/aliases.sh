@@ -7,7 +7,7 @@ alias inf="uname -sr && uptime| sed 's/ //' && sensors|grep Pack && \
            awk '{print \$3+\$5\" megs\"}'"
 
 alias zzz="systemctl suspend"
-
+alias tmux="tmux -u"
 # ------------------------------------------------------------------------------
 # | Defaults                                                                   |
 # ------------------------------------------------------------------------------
