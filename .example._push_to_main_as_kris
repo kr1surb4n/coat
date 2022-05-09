@@ -1,0 +1,6 @@
+#!/bin/bash
+#GIT_SSH_COMMAND="ssh -i ~/.ssh/github/id_github_kris" git push originssh main
+
+GIT_SSH_COMMAND="ssh -i ~/.ssh/github/id_rp_dotfiles_github_kris" git push originssh main
+
+#GIT_SSH_COMMAND="ssh -i ~/.ssh/github/id_rp_coat_github_kris" git push originssh main
