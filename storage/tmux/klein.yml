@@ -1,0 +1,12 @@
+session_name: klein
+shell_command_before:
+- 'watson stop'
+- 'watson start klein'
+windows:
+  - window_name: main
+    layout: main-vertical
+    panes:
+    - shell_command: 
+      - gtop
+    - cd ~/profiles 
+    - cd ~

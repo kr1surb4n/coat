@@ -80,6 +80,7 @@ echo "show what uses internet"; ss -p
 echo "start autosave"; watchmedo shell-command -W --patterns="*" --recursive --command='autosave' .
 echo "start clocking task"; watson_start
 echo "start main tmux"; tmuxp load main
+echo "start klein tmux"; tmuxp load klein
 echo "start php server :8000"; php -S 127.0.0.1:8000
 echo "start python http server :8000"; runserver
 echo "start salesapp"; tmuxp load trusc_workshop
