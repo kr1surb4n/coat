@@ -5,6 +5,9 @@ echo "convert webpage"; ebook-convert INDEX_FILE.HTML EBOOK_NAME.epub
 echo "save better"; wget -E -k -rp --convert-links https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html
 echo "scrap/save whole webpage"; wget -r https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html
 echo "shutdown in one hour"; sudo shutdown -h +60
+
+echo "bump inotify localy"; sudo sysctl fs.inotify.max_user_watches=100000
+
  
 ansible localhost -a 'ping -w 1 192.168.8.108'
 ansible localhost -a 'whoami' -u git
@@ -90,6 +93,7 @@ echo "start klein tmux"; tmuxp load klein
 echo "start php server :8000"; php -S 127.0.0.1:8000
 echo "start python http server :8000"; runserver
 echo "start salesapp"; tmuxp load trusc_workshop
+echo "start mylocal salesapp"; tmuxp load mytrusc_workshop
 echo "start wp"; tmuxp load wp_workshop
 echo "stop clocking  task"; watson_stop
 echo "teleport to..."; cdg
