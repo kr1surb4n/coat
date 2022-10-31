@@ -38,3 +38,11 @@ echo "last modified files last 40 days"; find . -mtime -40 | sort -r
 echo "check what service is under port";  sudo fuser -v $(fill 'Port (i.e 9000/tcp): ')
 
 echo "make a diff over files in two folders"; find ansible_lib/ -name "*" | while read afile; do colordiff $afile "docs/${afile}"; done > the_difference_of_ansible_lib
+
+journalctl --dmesg --follow
+journalctl --no-tail -b -o cat -fu dhcpcd@eth0
+journalctl --no-tail -b -o cat -fu dhcpcd@wlan0
+journalctl --no-tail -b -o cat -fu wpa_supplicant@wlan0
+journalctl -u "sshd@*"
+journalctl /usr/bin/sshd
+journalctl _COMM=sshd

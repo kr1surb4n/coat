@@ -1,4 +1,10 @@
-
+echo "rebase main on working - update working"; git rebase main
+echo "rebase working on main"; git rebase working
+echo "update main with working"; git switch main && git rebase working && git switch working
+echo "convert webpage"; ebook-convert INDEX_FILE.HTML EBOOK_NAME.epub
+echo "save better"; wget -E -k -rp --convert-links https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html
+echo "scrap/save whole webpage"; wget -r https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html
+echo "shutdown in one hour"; sudo shutdown -h +60
  
 ansible localhost -a 'ping -w 1 192.168.8.108'
 ansible localhost -a 'whoami' -u git
