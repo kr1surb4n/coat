@@ -17,10 +17,15 @@ choose_remote() {
   git remote -v | awk -e '{ print $1}' | uniq
 }
 
+git_branch () {
+   git rev-parse --abbrev-ref HEAD 2> /dev/null
+}
+
+
 # working branch
 alias makeworking='git checkout -b working'
 alias removeworking='git branch -D working'
-alias setcurrentbranch='export CURRENT_BRANCH=$git_branch'
+alias setcurrentbranch='export CURRENT_BRANCH="$(git_branch)"'
 
 # switch to working / start work
 alias newwork='setcurrentbranch; removeworking; makeworking;'
