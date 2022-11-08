@@ -43,10 +43,10 @@ echo "checkout/switch git branch"; fbr
 echo "checkout/switch tag"; fco
 echo "switch to new git branch"; git switch -c $(fill 'Branch name:')
 
-echo "make working"; git checkout -b working
-echo "removeworking"; git branch -D working
+echo "make working"; git switch -c working
+echo "removeworking"; removeworking
 
-echo "start working branch cycle"; startnewwork
+echo "start working branch cycle"; newwork
 
 echo "show git logs"; showgitlogs
 echo "squash current branch"; squashcurrent

@@ -23,7 +23,7 @@ git_branch () {
 
 
 # working branch
-alias makeworking='git checkout -b working'
+alias makeworking='git switch -c working'
 alias removeworking='git branch -D working'
 alias setcurrentbranch='export CURRENT_BRANCH="$(git_branch)"'
 
