@@ -5,6 +5,7 @@ alias g='git'
 alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
 alias shortlogs='git log --pretty=oneline --abbrev-commit'
 
+
 choose_commit() {
   shortlogs | fzf | awk -e '{print $1}'
 }
@@ -88,10 +89,6 @@ fco() {
                 --ansi) || return
     git checkout $(awk '{print $2}' <<<"$target" )
 }
-
-
-alias gitlogs='git log --graph --decorate --pretty=oneline --abbrev-commit'
-alias shortlogs='git log --pretty=oneline --abbrev-commit'
 
 
 # Aliases
