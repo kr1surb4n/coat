@@ -12,7 +12,3 @@ sh lib/fzf/install
 > $COAT_STORAGE/teleports
 > $COAT_STORAGE/spot
 > $COAT_STORAGE/bookmarks
-
-# add coat to .bashrc
-echo "source $HOME/.coatrc" >> ~/.bashrc
-source ~/.bashrc

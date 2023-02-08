@@ -1,4 +1,4 @@
-
+echo "update git submodules";; git submodule update --init --recursive
 echo "fetch all and prune"; git fetch --all --tags --prune
 echo "fetch all"; git fetch --all --tags
 echo "git soft reset"; git reset $(choose_commit)
