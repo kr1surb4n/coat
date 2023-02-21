@@ -117,3 +117,5 @@ sudo update-alternatives --config php
 sudo update-alternatives --config python
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
 sudo useradd -G postgres,mysql,git,docker,ssh -m -p "$(fill 'password: ')" -s /bin/bash jerry
+
+echo "rename the i3 workspace"; i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
