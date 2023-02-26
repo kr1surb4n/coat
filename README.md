@@ -55,8 +55,6 @@ Features
 Installation
 ============
 
-# Important - READ THE DAMN CODE BEFORE YOU RUN IT
-
 Useful order of reading:
 - .gitmodules
 - .coatrc.example
