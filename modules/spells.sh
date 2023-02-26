@@ -1,36 +1,56 @@
-
 #!/bin/bash
 set -o pipefail
 
-export SPELLS=~/.coat/storage/spells
-export MAGI_BOOK=$SPELLS/magi_book
+# IMPORTANT!
+# 
+# the variables are defined inside the ~/.coatrc file
 
-export BASH_SPELLS=$SPELLS/bash
-export DIAGNOSTICS_SPELLS=$SPELLS/diagnostics
-export PROGRAMS_SPELLS=$SPELLS/programs
-export NET_SPELLS=$SPELLS/network
-export DOCKER_SPELLS=$SPELLS/docker
-export PGSQL_SPELLS=$SPELLS/postgresql
-export GIT_COMMANDS_FILE=$SPELLS/git_commands
 
-export MAGIC_BOOKS="$MAGI_BOOK \
-                    $BASH_SPELLS \
-                    $DIAGNOSTICS_SPELLS \
-                    $PROGRAMS_SPELLS \
-                    $NET_SPELLS \
-                    $GIT_COMMANDS_FILE \
-                    $DOCKER_SPELLS \
-                    $PGSQL_SPELLS"
-
-export DIRTY_NOTES=~/.coat/storage/dirty_notes
-export TELEPORTS=$PATH_TO_COAT/storage/teleports
-
-unalias spell_find 2>/dev/null
-
+# # Spells
+#
+# A spell is a function cast by the User.
+# You will find here functions that allow you to cast
+# many spells.
+#
+# # A spell is written in a text file in the format:
+# 
+# echo "The spell description"; the command ...
+#
+# # To ask user for values use this way:
+#
+# read -ep "The Prompt: " the_variable_with_the_value && echo $the_variable_with_the_value
+# 
+# # Grouping of the spells
+#
+# Group the spells in files. One spell per line. 
+# The spell casting command uses `cat` to read the files with the spells. 
+# You can use it to concatente the spells like this: 
+# 
+# export MAGIC_BOOK="$PATH_TO_BASH_COMMANDS \
+#                    $PATH_TO_GIT_COMMANDS \
+#                    ... \ 
+#                   "
+# 
+# # List of functions
+# 
+# eval_line_with_fzf     -- will cast spells written in the variable $MAGIC_BOOKS
+#                           default shortcut: ALT + s 
+#
+# insert_line_with_fzf   -- will type in the spell in the command line, for tmux
+#                           default shortcut: ALT + w 
+# 
+# type_line_with_fzf     -- will type in the spell in the command line, for xdotool
+#
+# connect_with_ssh       -- will connect you to the a selected host through ssh
+#
+# call_a_workshop        -- will ask you which tmuxp configuration to load 
+#
+# save_the_workshop      -- will save you the current tmux session, you will be asked for the name
 
 function eval_line_with_fzf {
     command=$(cat $MAGIC_BOOKS | fzf)
     eval "${command/echo*\";/}"
+    # source "${command/echo*\";/}"
 }
 
 function insert_line_with_fzf {
@@ -41,15 +61,23 @@ function insert_line_with_fzf {
 
 function type_line_with_fzf {
     command=$(cat $MAGIC_BOOKS | fzf)
-	xdotool type "${command/echo*\";/}"
+	  xdotool type "${command/echo*\";/}"
 }
 
 function connect_with_ssh {
 	exec $(cat $TELEPORTS | fzf)
 }
 
-function watchmedo_command() {
+function watchmedo_command {
    watchmedo shell-command -W --patterns="${1}" --recursive --command="${2}" $3
+}
+
+function call_a_workshop {
+   tmuxp load $(tmuxp ls | fzf)
+}
+
+function save_the_workshop {
+   read -p "Name of the workshop: " workshop_name && tmuxp freeze -f yaml -o "${TMUXP_CONFIGDIR}/${workshop_name}.yaml"
 }
 
 # choose host to go
@@ -57,7 +85,6 @@ alias teleports='exec $(cat $TELEPORTS|fzf)'
 
 # cast a spell
 alias spellcast='eval_line_with_fzf'  # ALT + s
-alias sp='spellcast'
 
 # modify a spell
 alias spellforge='type_line_with_fzf $MAGI_BOOK' # ALT + w

@@ -41,7 +41,6 @@ echo "find process and kill"; fkill
 echo "fix broken"; sudo apt --fix-broken install
 echo "funs"; foxer funs
 echo "git-remove files set to delete"; gs | grep deleted | awk '{ print  }' | xargs git rm
-echo "git spells"; kit
 echo "goto waypoint"; goto
 echo "group add"; sudo groupadd ziomeczk
 echo "information about used videdrivers"; vainfo
@@ -72,7 +71,7 @@ echo "save current location in teleporter"; bookmarkfolder
 echo "save dirty note"; dirtynotes
 echo "save folder to bookmarks"; bookmarkfolder
 echo "scan network"; sudo nmap -sS 192.168.8.*
-echo "search apt"; apt-cache search "$(read -ep 'Search: ' PACKAGE)";
+echo "search apt"; read -ep 'Search: ' search_package && apt-cache search $search_package;
 echo "searching"; foxer searching
 echo "search manuals"; fmans
 echo "set sticky bit"; chmod 1000 TARGET_PATH
