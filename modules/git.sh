@@ -34,7 +34,7 @@ alias newwork='setcurrentbranch; removeworking; makeworking;'
 # squash current branch (working) -> will change all "autosave ..." commits into what have you done
 alias squashcurrent='git rebase -i $(shortlogs | fzf | awk "{print $1}")'
 
-# finish your work, rebase stuff
+# finish your work, rebase stuff, if you will remember ...
 alias mergeworking='git checkout $CURRENT_BRANCH && git rebase working'
 
 alias branch='git rev-parse --abbrev-ref HEAD 2> /dev/null'

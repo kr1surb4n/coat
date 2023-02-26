@@ -46,9 +46,10 @@ echo "switch to new git branch"; git switch -c $(fill 'Branch name:')
 echo "make working"; git switch -c working
 echo "removeworking"; removeworking
 
-echo "start working branch cycle"; newwork
+echo "start new working branch cycle"; newwork
 
-echo "show git logs"; showgitlogs
+echo "show git logs"; gitlogs
+echo "show short git logs"; shortlogs
 echo "squash current branch"; squashcurrent
 
 echo "remove file from git history"; git filter-branch --force --index-filter "git rm --cached --ignore-unmatch src/Credentials.json" --prune-empty --tag-name-filter cat -- --all
