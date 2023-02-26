@@ -8,6 +8,11 @@ export COAT_STORAGE=$PATH_TO_COAT/storage
 export SPOT_FILE=$PATH_TO_COAT/storage/spot
 export FOLDER_BOOKMARK_FILE=$PATH_TO_COAT/storage/bookmarks
 
+export SPELLS=~/.coat/storage/spells
+export MAGI_BOOK=$SPELLS/magi_book
+
+export MAGIC_BOOKS="$MAGI_BOOK"
+
 export COAT_PACKAGES=$PATH_TO_COAT/packages
 export COAT_LIBS=$PATH_TO_COAT/libs
 
