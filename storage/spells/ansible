@@ -1,3 +1,0 @@
-ansible localhost -a 'ping -w 1 192.168.8.108'
-ansible localhost -a 'whoami' -u git
-ansible localhost -a 'whoami' -u jerry
