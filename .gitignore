@@ -11,6 +11,9 @@ storage/bookmarks
 storage/spot
 storage/teleports
 
+# file marks written by file manager scripts
+storage/marks/
+
 # shell
 .envrc
 
