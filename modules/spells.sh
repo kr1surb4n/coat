@@ -89,6 +89,66 @@ alias spellcast='eval_line_with_fzf'  # ALT + s
 # modify a spell
 alias spellforge='type_line_with_fzf $MAGI_BOOK' # ALT + w
 
+# get paczek
+# ALT + n
+# pick a filling from the paczki library and drop it in the current folder
+paczek() {
+  local filling target
+  local -a fillings
+
+  # the library location is set in .coatrc
+  if [[ -z $PACZEK_FILLINGS || ! -d $PACZEK_FILLINGS ]]; then
+    echo "PACZEK_FILLINGS is not set or does not point to a folder" >&2
+    return 1
+  fi
+
+  # list the library without the .git folder and let fzf pick one or more
+  mapfile -t fillings < <(cd "$PACZEK_FILLINGS" && find . -type f -not -path './.git/*' -printf '%P\n' | fzf --multi)
+
+  # nothing picked, nothing to do
+  [[ ${#fillings[@]} -eq 0 ]] && return 0
+
+  for filling in "${fillings[@]}"; do
+    target=$(basename "$filling")
+
+    # a .tpl file is a template: ask for the values, then drop the suffix
+    if [[ $target == *.tpl ]]; then
+      fill_template "$PACZEK_FILLINGS/$filling" "$PWD/${target%.tpl}"
+    else
+      cp -- "$PACZEK_FILLINGS/$filling" "$PWD/"
+    fi
+  done
+}
+
+# ask for every {{ variable }} in a template and write the filled copy
+fill_template() {
+  local template=$1 target=$2 name value script=''
+  local -a names
+
+  # collect the distinct variable names in the order they appear
+  mapfile -t names < <(grep -oE '\{\{[[:space:]]*[A-Za-z_][A-Za-z0-9_]*[[:space:]]*\}\}' "$template" \
+    | sed -E 's/\{\{[[:space:]]*([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*\}\}/\1/' \
+    | awk '!seen[$0]++')
+
+  for name in "${names[@]}"; do
+    # read the answer from the terminal, so the loop keeps its own input
+    read -r -p "$name: " value < /dev/tty
+
+    # escape the answer for sed, otherwise / & and \ change its meaning
+    value=$(printf '%s' "$value" | sed -e 's/[\/&\\]/\\&/g')
+
+    # one sed rule per variable, filling every place it shows up
+    script+="s/{{[[:space:]]*${name}[[:space:]]*}}/$value/g"$'\n'
+  done
+
+  # copy the template over, keeping its permissions, then fill it in
+  cp --preserve=mode -- "$template" "$target"
+  sed -i -e "$script" "$target"
+}
+
+# the paczki README calls this tool paczekfiller
+alias paczekfiller='paczek'
+
 fman() {
     man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
 }
@@ -140,7 +200,7 @@ fkill() {
 
 alias linkdocs='find ~/docs/ -path *.git -prune -o -type f -print | fzf | xargs ln -s'
 alias edocs='find ~/docs/ -path *.git -prune -o -type f -print | fzf | xargs emacs'
-alias putgitignore='find ~/libraly/gitignores -path *.git -prune -o -type f -print | fzf | xargs -I{} cp "{}" . '
+alias putgitignore='find ~/library/gitignores -path *.git -prune -o -type f -print | fzf | xargs -I{} cp "{}" . '
 alias fmans='fman'
 
 

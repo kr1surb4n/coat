@@ -44,7 +44,7 @@ Features
 - scaffold for Bash shourtcuts, with few useful already defined
 - bind hack to start interactive commands through bash shortcuts 
 - browser profile manager (foxer) 
-- template files (paczki), ready for use with paczekfiller
+- template files (paczki), ready for use with paczekfiller (ALT + n); files ending in `.tpl` ask for their `{{ variable }}` values before landing in the current folder
 - Spells 
   - a list of commands that you can run, or use to build bigger chained CLI commands
   - open the Spellbook using ALT + s

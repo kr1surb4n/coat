@@ -18,5 +18,6 @@ bind -x '"\ew": spellforge'                 # -> run Nano to edit spells , not w
 bind -x '"\eg": cdg'                        # -> Folder Bookmarks
 
 # bind -x '"\eb": FREE'                     # TODO tmuxp selector
-# bind -x '"\en": FREE'
+
+bind -x '"\en": paczek'
 
