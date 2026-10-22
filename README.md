@@ -64,6 +64,7 @@ Useful order of reading:
 - modules/shortcuts.sh
 - modules/prompt.sh
 - modules/organizations.sh
+- modules/simplifications.sh
 - modules/spells.sh
 
 ### Warning
