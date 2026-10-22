@@ -4,8 +4,7 @@ source $HOME/.coatrc
 # pull submodules
 git submodule update --init
 
-# run fzf install
-sh lib/fzf/install
+# fzf comes from the system, install it with: sudo apt install fzf
 
 # create coat files
 > $COAT_STORAGE/status

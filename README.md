@@ -14,7 +14,6 @@ Coat uses/binds:
 - bash-completion
 - fzf
 - tmux
-- tmux powerline
 - git
 - python
 - python watchdog
@@ -76,6 +75,7 @@ This package is ment mostly for Ubuntu/Debian.
 tmux
 bash
 bash-completion
+fzf
 tmux
 tmuxp
 git

@@ -5,9 +5,3 @@
 [submodule "lib/paczki"]
 	path = lib/paczki
 	url = https://github.com/kr1surb4n/paczki.git
-[submodule "lib/tmux"]
-	path = lib/tmux
-	url = https://github.com/erikw/tmux-powerline.git
-[submodule "lib/fzf"]
-	path = lib/fzf
-	url = https://github.com/junegunn/fzf.git
