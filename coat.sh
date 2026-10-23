@@ -34,6 +34,7 @@ source $PATH_TO_COAT/modules/simplifications.sh
 source $PATH_TO_COAT/modules/git.sh
 source $PATH_TO_COAT/modules/python.sh
 source $PATH_TO_COAT/modules/spells.sh
+source $PATH_TO_COAT/modules/grimoire.sh
 source $PATH_TO_COAT/modules/shortcuts.sh
 source $PATH_TO_COAT/modules/autocomplete.sh
 

@@ -26,3 +26,5 @@ bind -x '"\eg": cdg'                        # -> Folder Bookmarks
 
 bind -x '"\en": paczek'
 
+bind -x '"\eh": grimoire'                   # -> every function and alias
+

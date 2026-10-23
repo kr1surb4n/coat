@@ -48,6 +48,10 @@ Features
   - fzf helps you to find the right command
   - connect to other hosts using SSH
   - and more
+- Grimoire (ALT + h)
+  - every function and alias Coat defines, with the comment above it
+  - fzf preview shows the definition, Enter types the name into the prompt
+  - the fastest way to find a spell you forgot the name of
 
 Installation
 ============
@@ -63,6 +67,7 @@ Useful order of reading:
 - modules/organizations.sh
 - modules/simplifications.sh
 - modules/spells.sh
+- modules/grimoire.sh
 
 ### Warning
 
