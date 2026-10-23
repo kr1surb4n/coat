@@ -17,7 +17,7 @@ open_nautilus () {
 
 # use vim
 if which vim >/dev/null 2>&1; then
-  alias vi="vim"
+  alias vi="nvim"
 fi
 
 # read input and echo it
@@ -87,7 +87,12 @@ function cd {
   pwd > ~/temp/current_dir
 
   # super hiper trick: wtf have i done yesterday?
-  ls --color -actr
+  # ls --color -actr  
+  # all(.dotfiles)  sort by ctime newst first  (for -l and -lt is different)
+  # , and sort time  newset first for second time ? and lets reverse it to it
+  # what was the result? 
+
+  ls --file-type --color -ba  # print C-style escape characters show all (.dotfiles)
 }
 
 # -------------------------------------------------------------------

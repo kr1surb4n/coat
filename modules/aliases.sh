@@ -37,18 +37,14 @@ alias clr='clear'
 #alias pip='tee -a ~/.dotfiles/packages/working_py3_packages|pip3'
 #alias apt='tee -a ~/.dotfiles/packages/working_apt_packages|apt'
 
-alias rm='rm -I'     # 'rm -i' prompts for every file
+#alias rm='rm -I'     # 'rm -i' prompts for every file
+#alias rm='echo $0;echo "This is not the command you are looking for. trash-put or trash-rm"; false'
+
 
 # safety features
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
-
-# Reload the shell (i.e. invoke as a login shell)
-alias reload="exec ${SHELL} -l"
-
-# Print each PATH entry on a separate line
-alias path='echo -e ${PATH//:/\\n}'
 
 # dmesg with readable time
 alias dmesg='dmesg -T'
@@ -56,6 +52,8 @@ alias dmesg='dmesg -T'
 # grep v2.21 depracates GREP_OPTIONS env var
 alias grep="grep $GREP_OPTIONS"
 
+# TODO what does it do?
+#alias mv=". /usr/share/mc/bin/mc-wrapper.sh -xc"
 # ------------------------------------------------------------------------------
 # | Global Quick Commands                                                      |
 # ------------------------------------------------------------------------------
@@ -70,10 +68,10 @@ alias reload_bash_profile='source ~/.bash_profile'
 alias reload_zsh_profile='source ~/.zprofile'
 
 # reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
+alias reload="exec $SHELL -l" # ERROR DUPLICATE
 
 # Print each PATH entry on a separate line
-alias path="echo -e ${PATH//:/\\n}"
+alias path="echo -e ${PATH//:/\\\\n}"
 
 # ------------------------------------------------------------------------------
 # | Navigation                                                                 |
@@ -309,7 +307,8 @@ fi
 # get / check for updates
 alias apt-update="sudo apt-get update"
 alias apt-upgrade="sudo apt-get update && sudo apt-get upgrade && sudo apt-get clean"
-
+alias apt-search="apt-cache search | sort"
+alias apt-install="sudo apt install"
 
 # ------------------------------------------------------------------------------
 # | Network                                                                    |
@@ -506,6 +505,10 @@ alias composer-install="composer install --optimize-autoloader"
 # ------------------------------------------------------------------------------
 
 #alias nyancat="telnet miku.acm.uiuc.edu"  # offline
+
+alias yt-to-mp3="yt-dlp -x -U --audio-format mp3 --audio-quality 198K" #yt to mp3 198k
+alias yt-to-movie="yt-dlp -U" #yt to video
+alias yt-playlist-to-mp3="yt-dlp --js-runtimes node -x -U --audio-format mp3 --audio-quality 198K --yes-playlist" #link to playlist with video
 
 alias starwars="telnet towel.blinkenlights.nl"
 
