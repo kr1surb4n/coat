@@ -22,9 +22,9 @@ coat_index() {
   rows=$(
     for module_file in "${COAT_MODULES:-$PATH_TO_COAT/modules}"/*.sh; do
       awk -v module="${module_file##*/}" -v path="$module_file" '
-      # remember the comment above, it describes the next definition
+      # remember the comment directly above, it describes the next definition
       /^#/ { desc = $0; sub(/^#[[:space:]]*/, "", desc); next }
-      /^[[:space:]]*$/ { next }
+      /^[[:space:]]*$/ { desc = ""; next }
       # spell() { ... }
       /^[A-Za-z_][A-Za-z0-9_]*\(\)/ {
         name = $0; sub(/\(.*/, "", name)
