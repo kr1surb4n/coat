@@ -92,7 +92,7 @@ alias spellforge='type_line_with_fzf $MAGI_BOOK' # ALT + w
 # ALT + n
 # pick a filling from the paczki library and drop it in the current folder
 paczek() {
-  local filling target prefix="${1:-}"
+  local filling target destination answer prefix="${1:-}"
   local -a fillings
 
   # the library location is set in .coatrc
@@ -115,11 +115,25 @@ paczek() {
   for filling in "${fillings[@]}"; do
     target=$(basename "$filling")
 
-    # a .tpl file is a template: ask for the values, then drop the suffix
+    # a .tpl file is a template and loses its suffix when it lands here
+    destination="$PWD/$target"
+    [[ $target == *.tpl ]] && destination="$PWD/${target%.tpl}"
+
+    # never overwrite a file silently, the folder may already have one;
+    # without a terminal the answer is empty, so the file is skipped
+    if [[ -e $destination ]]; then
+      read -r -p "$target is already here, overwrite? [y/N] " answer 2>/dev/null < /dev/tty
+      case "$answer" in
+        [yY]*) ;;
+        *) echo "skipped $target" >&2; continue ;;
+      esac
+    fi
+
+    # a template asks for the values, the rest is copied as it is
     if [[ $target == *.tpl ]]; then
-      fill_template "$PACZEK_FILLINGS/$filling" "$PWD/${target%.tpl}"
+      fill_template "$PACZEK_FILLINGS/$filling" "$destination"
     else
-      cp -- "$PACZEK_FILLINGS/$filling" "$PWD/"
+      cp -- "$PACZEK_FILLINGS/$filling" "$destination"
     fi
   done
 

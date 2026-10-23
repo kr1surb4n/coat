@@ -232,6 +232,10 @@ loot            # pick only the files that fit this kind of project
 ending in `.tpl` is a template: Coat asks for every `{{ variable }}` in it
 and writes the filled copy into the current folder.
 
+If a file with the same name is already in the folder, `paczek` asks
+before overwriting it.  Answer `n` and that file is skipped.  Without a
+terminal it skips the file instead of guessing.
+
 `loot` looks at the current folder and chooses a section of the library:
 Python, JS, Docker, Terraform, Makefiles, or Git.  If it does not
 recognise the project it shows the whole library.
