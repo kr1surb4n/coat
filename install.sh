@@ -42,7 +42,7 @@ git submodule update --init
 
 # create the runtime files, keep the ones that already hold something
 mkdir -p "$COAT_STORAGE"
-for _coat_file in status teleports spot bookmarks; do
+for _coat_file in status teleports spot bookmarks trail quests quest_hud achievements xp xp.log xp_count; do
   [ -f "$COAT_STORAGE/$_coat_file" ] || : > "$COAT_STORAGE/$_coat_file"
 done
 unset _coat_file

@@ -72,7 +72,7 @@ function watchmedo_command {
 }
 
 function call_a_workshop {
-   tmuxp load $(tmuxp ls | fzf)
+   dungeon
 }
 
 function save_the_workshop {
@@ -92,7 +92,7 @@ alias spellforge='type_line_with_fzf $MAGI_BOOK' # ALT + w
 # ALT + n
 # pick a filling from the paczki library and drop it in the current folder
 paczek() {
-  local filling target
+  local filling target prefix="${1:-}"
   local -a fillings
 
   # the library location is set in .coatrc
@@ -101,8 +101,11 @@ paczek() {
     return 1
   fi
 
-  # list the library without the .git folder and let fzf pick one or more
-  mapfile -t fillings < <(cd "$PACZEK_FILLINGS" && find . -type f -not -path './.git/*' -printf '%P\n' | fzf --multi)
+  # list the library without the .git folder and let fzf pick one or more,
+  # limited to the prefix (the loot table) when one was given
+  mapfile -t fillings < <(cd "$PACZEK_FILLINGS" && find . -type f -not -path './.git/*' -printf '%P\n' \
+    | { if [[ -n $prefix ]]; then grep -E "^${prefix}/"; else cat; fi; } \
+    | fzf --multi)
 
   # nothing picked, nothing to do
   [[ ${#fillings[@]} -eq 0 ]] && return 0
@@ -117,6 +120,39 @@ paczek() {
       cp -- "$PACZEK_FILLINGS/$filling" "$PWD/"
     fi
   done
+
+  # loot collected, a little experience and the badge
+  type -t coat_award >/dev/null && coat_award 3
+  type -t coat_achievement >/dev/null && coat_achievement looter
+}
+
+# pick the kind of loot that fits the project in this folder
+coat_loot_type() {
+  if [ -f pyproject.toml ] || [ -f setup.py ] || [ -f requirements.txt ]; then
+    echo python
+  elif [ -f package.json ]; then
+    echo js
+  elif [ -f Dockerfile ] || [ -f docker-compose.yml ] || [ -f docker-compose.yaml ]; then
+    echo docker
+  elif ls -- *.tf >/dev/null 2>&1; then
+    echo terraform
+  elif [ -f Makefile ]; then
+    echo makefiles
+  elif [ -d .git ]; then
+    echo git
+  else
+    echo ""
+  fi
+}
+
+# take loot that matches the project you are in
+loot() {
+  local type
+  type=$(coat_loot_type)
+  if [ -z "$type" ]; then
+    echo "loot: no known project here, showing the whole library" >&2
+  fi
+  paczek "$type"
 }
 
 # ask for every {{ variable }} in a template and write the filled copy

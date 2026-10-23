@@ -33,6 +33,9 @@ source $PATH_TO_COAT/modules/organization.sh
 source $PATH_TO_COAT/modules/simplifications.sh
 source $PATH_TO_COAT/modules/git.sh
 source $PATH_TO_COAT/modules/python.sh
+source $PATH_TO_COAT/modules/xp.sh
+source $PATH_TO_COAT/modules/quest.sh
+source $PATH_TO_COAT/modules/dungeon.sh
 source $PATH_TO_COAT/modules/spells.sh
 source $PATH_TO_COAT/modules/grimoire.sh
 source $PATH_TO_COAT/modules/shortcuts.sh

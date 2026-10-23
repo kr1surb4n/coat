@@ -52,6 +52,20 @@ Features
   - every function and alias Coat defines, with the comment above it
   - fzf preview shows the definition, Enter types the name into the prompt
   - the fastest way to find a spell you forgot the name of
+- Trail (ALT + l)
+  - every folder change and every mark is remembered, newest first
+  - pick one and you are back there
+- mark / spot / goto
+  - mark the folder where you stopped, spot shows it, goto takes you back
+- Quests (ALT + q)
+  - `quest add <text>`, `quest list`, `quest done`, `quest log`
+  - the active quest shows in the tmux status line and in `character`
+- Character sheet
+  - every command earns experience, 100 xp per level
+  - `character` shows the level, top spells, folder, branch and quest
+  - `achievements` lists the badges, `sessionmap` shows the windows of the session
+- Dungeons and loot
+  - `dungeon` loads a tmuxp session, `loot` drops the paczek that fits the project
 
 Installation
 ============
@@ -66,6 +80,9 @@ Useful order of reading:
 - modules/prompt.sh
 - modules/organizations.sh
 - modules/simplifications.sh
+- modules/xp.sh
+- modules/quest.sh
+- modules/dungeon.sh
 - modules/spells.sh
 - modules/grimoire.sh
 

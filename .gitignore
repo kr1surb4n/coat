@@ -11,6 +11,13 @@ storage/bookmarks
 storage/spot
 storage/teleports
 storage/status
+storage/trail
+storage/quests
+storage/quest_hud
+storage/achievements
+storage/xp
+storage/xp_count
+storage/xp.log
 
 # file marks written by file manager scripts
 storage/marks/

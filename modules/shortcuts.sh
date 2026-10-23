@@ -28,3 +28,6 @@ bind -x '"\en": paczek'
 
 bind -x '"\eh": grimoire'                   # -> every function and alias
 
+bind -x '"\el": trail'                      # -> where you have been
+bind -x '"\eq": quest list'                 # -> pick the active quest
+
