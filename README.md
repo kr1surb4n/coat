@@ -1,127 +1,198 @@
 Coat
 ====
 
-Coat is an overlay over the command line, that groups several
-tools together, in an attempt to change the experience
-of working with shell.
+Coat is a small overlay over bash: aliases, functions and fzf menus that
+make the shell feel more like a game and less like a chore.
 
-The philosophy:
+It loads from `~/.coatrc`, keeps everything it remembers in plain text
+under `~/.coat/storage`, and never edits your `.bashrc` behind your back.
 
-I don't want to work, I want to have fun without an interuption every 10 seconds.
+The complete manual is [docs/manual.md](docs/manual.md).  Once Coat is
+loaded, run `manual` or press `ALT + m`.
 
-Coat uses/binds:
-- bash
-- bash-completion
-- fzf
-- tmux
-- git
-- python
-- python watchdog
-- ansible
-- foxer
-- paczki
-- cookiecuter
-- GNU make
+What you get
+============
 
-It is not inteded as a framework like Bash-it. Although,
-it is intended to be easily modified and explored.
+**Find things**
 
-Dotfiles you have to provide by yourself.
+- `grimoire` (`ALT + h`) -- every function and alias, with the source in
+  the preview and how often you used it. Enter types the name.
+- `manual` (`ALT + m`) -- this project's manual, section by section.
+- `history_top_used`, `lman`, `fman` -- your habits, the last man page,
+  any man page.
 
-Features
-========
+**Places**
 
-- out of the box fzf
-- a collection of Bash aliases (all described in Spells)
-- a collcetion of usefull Bash functions (all described in Spells)
-- loading the bash completion files
-- git aliases and helpers
-- mark folder & jump back to folder
-- folder bookmarks
-- scaffold for Bash shourtcuts, with few useful already defined
-- bind hack to start interactive commands through bash shortcuts 
-- browser profile manager (foxer) 
-- template files (paczki), ready for use with paczekfiller (ALT + n); files ending in `.tpl` ask for their `{{ variable }}` values before landing in the current folder
-- Spells 
-  - a list of commands that you can run, or use to build bigger chained CLI commands
-  - open the Spellbook using ALT + s
-  - fzf helps you to find the right command
-  - connect to other hosts using SSH
-  - and more
-- Grimoire (ALT + h)
-  - every function and alias Coat defines, with the comment above it
-  - fzf preview shows the definition, Enter types the name into the prompt
-  - the fastest way to find a spell you forgot the name of
-- Trail (ALT + l)
-  - every folder change and every mark is remembered, newest first
-  - pick one and you are back there
-- mark / spot / goto
-  - mark the folder where you stopped, spot shows it, goto takes you back
-- Quests (ALT + q)
-  - `quest add <text>`, `quest list`, `quest done`, `quest log`
-  - the active quest shows in the tmux status line and in `character`
-- Character sheet
-  - every command earns experience, 100 xp per level
-  - `character` shows the level, top spells, folder, branch and quest
-  - `achievements` lists the badges, `sessionmap` shows the windows of the session
-- Dungeons and loot
-  - `dungeon` loads a tmuxp session, `loot` drops the paczek that fits the project
+- `mark`, `spot`, `goto` -- the "where I stopped working" save point.
+- `trail` (`ALT + l`) -- every folder you visited or marked, newest first.
+- `bookmarkfolder`, `cdg` (`ALT + g`) -- a folder bookmark list with fzf.
+- `cd` prints the folder after moving and records the visit; `cdo`, `..`,
+  `...`, `mkd` work the way you expect.
+
+**Spells**
+
+- A spell is one line: `echo "description"; the command`.
+- `ALT + s` casts a spell in the current tmux pane, `ALT + i` types it into
+  the prompt so you can edit it first, `spellsave` saves a history line as
+  a new spell.
+
+**Templates**
+
+- `paczek` (`ALT + n`) -- copy ready files from the paczki library into the
+  current folder; `.tpl` files ask for their `{{ variables }}` first.
+- `loot` -- the same, limited to the kind of project you are standing in.
+
+**Work**
+
+- `quest add`, `quest list` (`ALT + q`), `quest done`, `quest log` -- what
+  you are doing right now.
+- `character` -- level, experience bar, top spells, folder, branch, quest.
+- `achievements` -- eight badges, from Apprentice to Veteran.
+- The tmux status line shows your level and the active quest.
+
+**Sessions**
+
+- `dungeon` -- enter a saved tmuxp layout with a preview.
+- `save_the_workshop` -- save the current session as a layout.
+- `sessionmap` -- list the windows of the current session.
+
+**The usual**
+
+- git aliases and helpers (`gs`, `gc`, `gp`, `fbr`, `fco`, the `working`
+  branch flow).
+- python virtualenv helpers (`makevenv`, `makeactive`, `makeactiver`).
+- notes (`dirtynotes`, `note`), clipboard, archive helpers, network and
+  system tools.
+- 100+ functions and 200+ aliases in total; `grimoire` lists all of them.
+
+The manual has a section for every feature, with examples.
+
+Keys
+====
+
+These work in an interactive bash shell, not inside scripts.
+
+| Key     | What it does |
+|---------|--------------|
+| ALT + g | folder bookmarks |
+| ALT + h | grimoire: every function and alias |
+| ALT + i | type a spell into the prompt |
+| ALT + l | trail: folders you have visited |
+| ALT + m | the manual |
+| ALT + n | take a paczek template |
+| ALT + q | pick the active quest |
+| ALT + s | cast a spell in the current tmux pane |
+| ALT + t | ssh to a host from your teleports |
+| ALT + w | spellforge, unfinished |
 
 Installation
 ============
 
-Useful order of reading:
-- .gitmodules
-- .coatrc.example
-- coat.sh
-- install.sh
-- modules/variables.sh
-- modules/shortcuts.sh
-- modules/prompt.sh
-- modules/organizations.sh
-- modules/simplifications.sh
-- modules/xp.sh
-- modules/quest.sh
-- modules/dungeon.sh
-- modules/spells.sh
-- modules/grimoire.sh
+Requirements: Debian or Ubuntu, bash 4.2 or newer, git, fzf.
+Optional but expected: tmux (the `ALT + s`, `ALT + i` and `ALT + t` keys),
+tmuxp (dungeons), direnv, xclip (clipboard), python3 + virtualenv, fasd
+(`z`).
 
-### Warning
+1. Copy `.coatrc.example` to `~/.coatrc` and edit the paths.
+2. Run `bash install.sh` from this folder.
+3. Add `source ~/.coatrc` at the end of your `~/.bashrc`.
+4. Open a new shell.
 
-This package is ment mostly for Ubuntu/Debian.
+`install.sh` links this folder as `~/.coat`, stops if `~/.coatrc` is
+missing, pulls the submodules, creates the runtime files in
+`$COAT_STORAGE`, creates `~/temp/current_dir` and an empty `~/.env`.  It
+keeps existing data and never truncates a bookmark, a mark or a quest.
 
-### Requirements
+To update, `git pull` and run `install.sh` again.  Open a new shell after
+changing a module: the load guard ignores a second `source ~/.coatrc` in
+the same shell on purpose.
 
-tmux
-bash
-bash-completion
-fzf
-tmux
-tmuxp
-git
-python3
+Layout
+======
 
-### Installation
+```
+coat.sh              loads the modules, in order
+install.sh           links ~/.coat and creates the runtime files
+.coatrc.example      template for the machine specific config
+modules/
+  variables.sh       environment basics (history, terminal, paths)
+  aliases.sh         the plain aliases
+  bash_functions.sh  the plain functions
+  organization.sh    marks, bookmarks, the trail
+  simplifications.sh clipboard helpers
+  git.sh             git aliases and helpers
+  python.sh          virtualenv helpers
+  xp.sh              command log, levels, achievements, the hud
+  quest.sh           the quest log
+  dungeon.sh         tmuxp layouts as dungeons
+  spells.sh          spellbook, paczki, ssh, loot
+  grimoire.sh        the searchable list of functions and aliases
+  manual.sh          the manual window
+  shortcuts.sh       every key binding
+  autocomplete.sh    loads the completion files
+  prompt.sh          the prompt
+docs/manual.md       the long form manual
+lib/                 submodules: foxer, paczki
+storage/             runtime data, all plain text, all git ignored
+```
 
-1. clone this repo
-2. modify the .coatrc.example file and save it in your home folder under the name .coatrc
-3. run git submodules update --init --recursive
-4. source .coatrc file at the end of your .bashrc file
-5. have fun
+Where your data lives
+=====================
 
-or
+`~/.coat/storage`, unless `COAT_STORAGE` says otherwise:
 
-use the install.sh script.
-It will link this folder as ~/.coat, pull the submodules and source your ~/.coatrc.
-It will create the runtime files in $COAT_STORAGE, the ~/temp folder with the
-file used by the cd function, and an empty ~/.env for the machine specific settings.
+| File | What it holds |
+|------|---------------|
+| `spot`, `bookmarks`, `trail` | where you have been |
+| `teleports` | ssh destinations |
+| `quests`, `quest_hud` | the quest log and the status line |
+| `xp`, `xp_count`, `xp.log`, `achievements` | the game |
+| `dirty_notes`, `cookies`, `status` | notes and scratch data |
 
+Delete `xp`, `xp_count`, `xp.log`, `achievements` and `quests` to start a
+new character.  Delete `trail` to forget where you have been.  Nothing
+else depends on them.
 
-Code that influenced Coat
-=========================
+Customising
+===========
 
-https://github.com/mathiasbynens/dotfiles.git
-https://github.com/Bash-it/bash-it.git 
+- A new function or alias: add it to a module, or make a new module and
+  add one `source` line in `coat.sh`.
+- A new key: one `bind -x` line in `modules/shortcuts.sh`.
+- A new spell: edit a file listed in `MAGIC_BOOKS`, or save a history line
+  with `spellsave`.
+- A new template: drop a file into `lib/paczki/<section>/`.
+- A new dungeon: `save_the_workshop`.
 
-and many more which I have stumbled upon
-through all my years of work.
+Reading order
+=============
+
+- `.coatrc.example`
+- `coat.sh`
+- `install.sh`
+- `modules/variables.sh`
+- `modules/organization.sh`
+- `modules/xp.sh`, `modules/quest.sh`, `modules/dungeon.sh`
+- `modules/spells.sh`
+- `modules/grimoire.sh`, `modules/manual.sh`
+- `modules/shortcuts.sh`
+- `modules/prompt.sh`
+
+Known limits
+============
+
+- `ALT + w` (spellforge) is unfinished; edit the spell files directly.
+- `z` needs `fasd`, which is not installed by default.
+- `dungeon` needs `TMUXP_CONFIGDIR` with at least one yaml layout; the
+  path in `.coatrc.example` may not exist on a fresh machine.
+- Key bindings only exist in interactive shells.
+- `ALT + s`, `ALT + i` and `ALT + t` only work inside tmux.
+
+Credits
+=======
+
+Influenced by [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
+and [Bash-it](https://github.com/Bash-it/bash-it), and by many snippets
+collected over the years.
+
+MIT licensed, see [LICENSE](LICENSE).
