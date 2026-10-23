@@ -102,8 +102,10 @@ paczek() {
   fi
 
   # list the library without the .git folder and let fzf pick one or more,
-  # limited to the prefix (the loot table) when one was given
-  mapfile -t fillings < <(cd "$PACZEK_FILLINGS" && find . -type f -not -path './.git/*' -printf '%P\n' \
+  # limited to the prefix (the loot table) when one was given;
+  # no cd here, the cd function prints the folder and that would end up
+  # in the array next to the real picks
+  mapfile -t fillings < <(find "$PACZEK_FILLINGS" -type f -not -path '*/.git/*' -printf '%P\n' \
     | { if [[ -n $prefix ]]; then grep -E "^${prefix}/"; else cat; fi; } \
     | fzf --multi)
 

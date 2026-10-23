@@ -95,7 +95,8 @@ function cd {
   # , and sort time  newset first for second time ? and lets reverse it to it
   # what was the result? 
 
-  ls --file-type --color -ba  # print C-style escape characters show all (.dotfiles)
+  # the listing is decoration: keep it out of command substitutions
+  ls --file-type --color -ba >&2
 }
 
 # -------------------------------------------------------------------
