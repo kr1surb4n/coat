@@ -86,6 +86,9 @@ function cd {
 
   pwd > ~/temp/current_dir
 
+  # note the new folder in the trail
+  type -t trail_add >/dev/null && trail_add cd
+
   # super hiper trick: wtf have i done yesterday?
   # ls --color -actr  
   # all(.dotfiles)  sort by ctime newst first  (for -l and -lt is different)
