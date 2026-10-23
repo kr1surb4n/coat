@@ -18,7 +18,6 @@ Coat uses/binds:
 - python
 - python watchdog
 - ansible
-- watson
 - foxer
 - paczki
 - cookiecuter
@@ -37,7 +36,6 @@ Features
 - a collcetion of usefull Bash functions (all described in Spells)
 - loading the bash completion files
 - git aliases and helpers
-- prompt status for watson
 - mark folder & jump back to folder
 - folder bookmarks
 - scaffold for Bash shourtcuts, with few useful already defined
@@ -80,8 +78,6 @@ tmux
 tmuxp
 git
 python3
-python3-watson
-watson
 
 ### Installation
 
@@ -94,12 +90,9 @@ watson
 or
 
 use the install.sh script.
-It will pull the submodules.
-In your home folder, it will create: archive, bin, docs, workshops, library, temp, Portal, and sync folders.
-It will install fzf for you.
-It will create special files in $COAT_STORAGE folder.
-It will install Coat at end of your .bashrc file,
-and reload the .bashrc.
+It will link this folder as ~/.coat, pull the submodules and source your ~/.coatrc.
+It will create the runtime files in $COAT_STORAGE, the ~/temp folder with the
+file used by the cd function, and an empty ~/.env for the machine specific settings.
 
 
 Code that influenced Coat

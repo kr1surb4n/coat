@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# key bindings only work in an interactive shell, skip them in scripts
+if [[ $- != *i* ]]; then
+  return 0 2>/dev/null || exit 0
+fi
+
 # How to run interactive bash commands with a shortcut using bind function?
 #
 # bind function is for non-interactive commands only. 

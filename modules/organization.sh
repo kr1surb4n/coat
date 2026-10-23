@@ -1,15 +1,5 @@
 #!/bin/bash
 
-__watson_prompt() {
-
-	if [[ "$(watson status)" != "No project started." ]]; then
-		# watson_project=`watson status | awk '{ print $2 }'`
-		echo -e "🚧 $(watson status | awk '{ print $2 }')"
-	else
-		echo -e ""
-	fi
-}
-
 # Spot File a.k.a Teleport Back
 # 
 # Mark a spot, or a location. Use 
