@@ -38,6 +38,7 @@ source $PATH_TO_COAT/modules/quest.sh
 source $PATH_TO_COAT/modules/dungeon.sh
 source $PATH_TO_COAT/modules/spells.sh
 source $PATH_TO_COAT/modules/grimoire.sh
+source $PATH_TO_COAT/modules/manual.sh
 source $PATH_TO_COAT/modules/shortcuts.sh
 source $PATH_TO_COAT/modules/autocomplete.sh
 
