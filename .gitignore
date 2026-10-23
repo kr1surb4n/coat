@@ -6,10 +6,11 @@
 ### wwwhhaaatt? 
 ._* 
 
-# bookmarks
+# runtime files
 storage/bookmarks
 storage/spot
 storage/teleports
+storage/status
 
 # file marks written by file manager scripts
 storage/marks/
