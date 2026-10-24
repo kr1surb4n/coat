@@ -72,6 +72,20 @@ test_achievements_list() {
   assert_contains "$(cat "$SB/storage/achievements")" "first_spell"
 }
 
+# the command log does not depend on history settings
+test_xp_log_ignores_history() {
+  new_case_sandbox
+  local out
+  out=$(run_coat 'HISTIGNORE="*"; COAT_XP_READY=1; COAT_PENDING_COMMAND="echo hidden"; coat_prompt_log; cat "$COAT_STORAGE/xp.log"; cat "$COAT_STORAGE/xp_count"')
+
+  assert_contains "$out" "echo hidden"
+  assert_contains "$out" "1"
+
+  # the status comes from the command, not from a history entry
+  out=$(run_coat 'COAT_XP_READY=1; COAT_PENDING_COMMAND="false"; false; coat_prompt_log; cat "$COAT_STORAGE/xp.log"')
+  assert_contains "$out" $'\t1\t'
+}
+
 # a quest longer than 40 characters is cut in the HUD
 test_hud_truncates_long_quest() {
   new_case_sandbox

@@ -32,9 +32,31 @@ test_load_flag_is_not_exported() {
 test_double_source_is_a_noop() {
   new_case_sandbox
   local out
-  out=$(run_coat 'source "$HOME/.coatrc"; grep -o coat_log_command <<<"$PROMPT_COMMAND" | wc -l')
+  # the prompt hook only exists in an interactive shell, so use bash -i here
+  out=$(HOME="$HOME" bash --noprofile --norc -i -c 'source "$HOME/.coatrc" >/dev/null 2>&1; source "$HOME/.coatrc" >/dev/null 2>&1; grep -o coat_prompt_log <<<"$PROMPT_COMMAND" | wc -l' 2>/dev/null)
 
   assert_eq "$out" "1"
+}
+
+# the module order is explicit and the prompt is always last
+test_module_order_is_explicit() {
+  new_case_sandbox
+  local out
+  out=$(run_coat 'printf "%s\n" "${COAT_MODULE_ORDER[@]}"')
+
+  assert_contains "$out" "variables"
+  assert_contains "$out" "aliases"
+  assert_contains "$out" "bash_functions"
+  assert_eq "$(printf '%s\n' "$out" | tail -1)" "prompt"
+}
+
+# Coat no longer forces TERM; the terminal or .coatrc owns it
+test_term_is_not_forced() {
+  new_case_sandbox
+  local out
+  out=$(TERM=xterm-256color run_coat 'printf "%s\n" "$TERM"')
+
+  assert_eq "$out" "xterm-256color"
 }
 
 # without PATH_TO_COAT coat stops with a readable message
@@ -55,7 +77,7 @@ test_indexes_are_complete() {
   sections=$(run_coat 'manual_index | wc -l')
   rows=$(run_coat 'coat_index | wc -l')
 
-  assert_eq "$sections" "24"
+  assert_eq "$sections" "28"
   [ "$rows" -ge 300 ] || fail "expected at least 300 grimoire rows, got $rows"
 
   # every row has six tab separated fields

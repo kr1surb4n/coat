@@ -1,6 +1,5 @@
-#########################
-# autocomplete
-#########################
+# shellcheck shell=bash
+# Load the completion scripts from BASH_COMPLETION_USER_DIR.
 
 # # howto
 # by default $BASH_COMPLETION_USER_DIR is ~/.config/bash-completion
@@ -11,7 +10,7 @@
 # copy&paste the autocomplete script inside $BASH_COMPLETION_USER_DIR,
 # or like I do, link the ones you need
 #
-# !! a lot of those scripts can slow down your shell.
+# Warning: a lot of those scripts can slow down your shell.
 # also it is highly possible this loop bellow is doing that
 # TODO: check load time for a loop and a list of sourced files
 

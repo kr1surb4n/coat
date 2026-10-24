@@ -640,15 +640,15 @@ os-info()
   lsb_release -a
   uname -a
 
-  if [ -z /etc/lsb-release ]; then
+  if [ -f /etc/lsb-release ]; then
     cat /etc/lsb-release;
   fi;
 
-  if [ -z /etc/issue ]; then
+  if [ -f /etc/issue ]; then
     cat /etc/issue;
   fi;
 
-  if [ -z /proc/version ]; then
+  if [ -f /proc/version ]; then
     cat /proc/version;
   fi;
 }
@@ -657,7 +657,7 @@ os-info()
 # command_exists: check if a command exists
 command_exists()
 {
-    return type "$1" &> /dev/null ;
+    type "$1" &> /dev/null
 }
 
 # -------------------------------------------------------------------
@@ -894,7 +894,7 @@ fs()
     local arg=-sh
   fi
 
-  if [[ -n "$@" ]]; then
+  if [[ -n "$*" ]]; then
     du $arg -- "$@"
   else
     du $arg .[^.]* ./*
@@ -1153,7 +1153,7 @@ escape()
 # unidecode: Decode \x{ABCD}-style Unicode escape sequences
 unidecode()
 {
-  perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
+  perl -e "binmode(STDOUT, ':utf8'); print \"$*\""
   # print a newline unless we’re piping the output to another program
   if [ -t 1 ]; then
     echo # newline
@@ -1164,7 +1164,7 @@ unidecode()
 # codepoint: Get a character’s Unicode code point
 codepoint()
 {
-  perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
+  perl -e "use utf8; print sprintf('U+%04X', ord(\"$*\"))"
   # print a newline unless we’re piping the output to another program
   if [ -t 1 ]; then
     echo # newline

@@ -3,7 +3,7 @@
 #   make test                 syntax check, then the automated suite
 #   make test TEST_FILTER=paczek   only matching test names
 #   make syntax               bash -n on every script
-#   make shellcheck           shellcheck at error level (known issues, see docs/issues.md)
+#   make shellcheck           shellcheck at error level; should report nothing
 #   make cases                read the manual test checklist
 #   make issues               read the list of known issues
 
@@ -20,7 +20,7 @@ help:
 	  'make test                    syntax check and the automated tests' \
 	  'make test TEST_FILTER=word   run only tests whose name contains word' \
 	  'make syntax                  bash -n on coat.sh, install.sh and modules' \
-	  'make shellcheck              shellcheck at error level (known issues are listed)' \
+	  'make shellcheck              shellcheck at error level; should report nothing' \
 	  'make lint                    syntax + shellcheck' \
 	  'make cases                   open docs/test-cases.md' \
 	  'make issues                  open docs/issues.md'
@@ -37,11 +37,11 @@ syntax:
 	@bash -n $(SCRIPTS)
 	@printf 'syntax ok (%s files)\n' "$(words $(SCRIPTS))"
 
-# static analysis; docs/issues.md explains the findings that are not fixed yet
+# static analysis; the scripts should be clean
 shellcheck:
 	@shellcheck -S error $(SCRIPTS)
 
-# both checks, shellcheck may fail until the known issues are fixed
+# both checks; both should pass
 lint: syntax shellcheck
 
 # the readable checklist for the parts a machine cannot judge

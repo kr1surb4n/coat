@@ -23,7 +23,7 @@ afterwards.
 make test                      # syntax check + all automated cases
 make test TEST_FILTER=paczek   # only test names containing "paczek"
 make syntax                    # bash -n on every script
-make shellcheck                # static analysis, known findings
+make shellcheck                # static analysis, should report nothing
 make cases                     # this file
 make issues                    # docs/issues.md
 ```
@@ -53,13 +53,16 @@ that pays 2 xp shows +3 if you count the command itself.
 | A1 | Core is loaded | `type grimoire`, `type mark`, `type quest` | `function` for all | auto (`load_core_functions`) |
 | A2 | Aliases exist | `type ll`, `type gs`, `type spot` | `alias` | auto (`load_core_functions`) |
 | A3 | The guard is not exported | `bash` then `echo "${COAT_SHELL_LOADED:-unset}"` | `unset` in the child shell | auto (`load_flag_is_not_exported`) |
-| A4 | Double source is a no-op | `source ~/.coatrc`, then `grep -o coat_log_command <<<"$PROMPT_COMMAND" \| wc -l` | `1` | auto (`double_source_is_a_noop`) |
+| A4 | Double source is a no-op | `source ~/.coatrc`, then `grep -o coat_prompt_log <<<"$PROMPT_COMMAND" \| wc -l` | `1` | auto (`double_source_is_a_noop`) |
 | A5 | Missing `PATH_TO_COAT` | `env -u PATH_TO_COAT bash --noprofile --norc -c 'source ~/.coat/coat.sh'` | readable error, exit 1 | auto (`missing_path_to_coat`) |
 | A6 | `PATH_TO_COAT` is not a folder | `PATH_TO_COAT=/nope bash --noprofile --norc -c 'source ~/.coat/coat.sh'` | readable error, exit 1 | auto (`path_to_coat_must_be_a_folder`) |
 | A7 | Scripts do not get bindings | `bash -c 'source ~/.coatrc; bind -X'` | no Coat bindings | manual |
 | A8 | `.bashrc` only sources `.coatrc` | `grep -n coatrc ~/.bashrc` | one `source` line | auto (`install_does_not_touch_bashrc` covers the installer) |
-| A9 | Indexes are complete | `manual_index \| wc -l`, `coat_index \| wc -l` | `24`, at least 300 | auto (`indexes_are_complete`) |
+| A9 | Indexes are complete | `manual_index \| wc -l`, `coat_index \| wc -l` | `28`, at least 300 | auto (`indexes_are_complete`) |
 | A10 | Grimoire comments are close | `coat_index \| awk -F'\t' '$1=="mark"{print $4}'` | the `mark the folder…` comment | auto (`grimoire_comment`) |
+| A11 | Load order is explicit | `printf '%s\n' "${COAT_MODULE_ORDER[@]}"` | `prompt` is last | auto (`module_order_is_explicit`) |
+| A12 | `TERM` is not forced | `TERM=xterm-256color`, source `.coatrc`, print `$TERM` | `xterm-256color` | auto (`term_is_not_forced`) |
+| A13 | XP does not use history | set `HISTIGNORE='*'`, log a pending command | the command is in `xp.log` | auto (`xp_log_ignores_history`) |
 
 ## B. `install.sh` (throwaway home)
 
@@ -167,8 +170,8 @@ matching automated cases create the copy themselves.
 | ID | Test | Steps | Expected | Auto |
 |----|------|-------|----------|------|
 | I1 | Syntax | `make syntax` | all scripts parse | auto |
-| I2 | Static analysis | `make shellcheck` | reports the known findings | auto (informational) |
-| I3 | `command_exists` | `command_exists ls; echo $?` | 0 | xfail (`command_exists_is_broken`, ISS-01) |
+| I2 | Static analysis | `make shellcheck` | no findings | auto |
+| I3 | `command_exists` | `command_exists ls; echo $?` / `command_exists nope; echo $?` | 0 / 1 | auto (`command_exists`) |
 | I4 | Missing runtime file | delete `storage/trail`, open a shell | recreated, other files kept | auto (source of `organization.sh`) |
 | I5 | Real install | run `install.sh` on the real account | link and runtime files only, no `.bashrc` edit | manual |
 

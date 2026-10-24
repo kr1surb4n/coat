@@ -3,6 +3,27 @@
 # machine specific settings and secrets, not part of the repository
 [ -f ~/.env ] && source ~/.env
 
+# terminal type: Coat does not force it; your terminal/tmux/ssh should set it.
+# Uncomment one only when the value is wrong. Common choices:
+#   xterm-256color      a normal 256-colour xterm
+#   tmux-256color       inside tmux
+#   screen-256color     inside screen (or a tmux that reports screen)
+#   linux               the Linux console
+#   dumb                no escape sequences, plain logs
+# Check a value with: infocmp xterm-256color
+# export TERM="xterm-256color"
+
+# history: Bash keeps the list in memory and writes it to $HISTFILE.
+# Negative values mean "no limit"; 0 disables history. The practical limit is
+# memory and disk. Use e.g. 100000/200000 for a bounded history.
+export HISTSIZE=-1
+export HISTFILESIZE=-1
+# keep consecutive duplicates out, but save everything else (including cd/ls/pwd)
+export HISTCONTROL=ignoredups
+export HISTIGNORE=
+# append instead of replacing the history file when a shell exits
+shopt -s histappend
+
 # coat configuration
 export PATH_TO_COAT=~/.coat
 export COAT_MODULES=$PATH_TO_COAT/modules

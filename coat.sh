@@ -24,23 +24,30 @@ fi
 # load modules
 #########################
 
-# variables go first
-source $PATH_TO_COAT/modules/variables.sh
+# the load order is explicit; a later module may override an earlier alias or function
+COAT_MODULE_ORDER=(
+  variables
+  aliases
+  bash_functions
+  organization
+  simplifications
+  git
+  python
+  xp
+  quest
+  dungeon
+  spells
+  grimoire
+  manual
+  shortcuts
+  autocomplete
+  prompt
+)
 
-source $PATH_TO_COAT/modules/aliases.sh
-source $PATH_TO_COAT/modules/bash_functions.sh
-source $PATH_TO_COAT/modules/organization.sh
-source $PATH_TO_COAT/modules/simplifications.sh
-source $PATH_TO_COAT/modules/git.sh
-source $PATH_TO_COAT/modules/python.sh
-source $PATH_TO_COAT/modules/xp.sh
-source $PATH_TO_COAT/modules/quest.sh
-source $PATH_TO_COAT/modules/dungeon.sh
-source $PATH_TO_COAT/modules/spells.sh
-source $PATH_TO_COAT/modules/grimoire.sh
-source $PATH_TO_COAT/modules/manual.sh
-source $PATH_TO_COAT/modules/shortcuts.sh
-source $PATH_TO_COAT/modules/autocomplete.sh
+for _coat_module in "${COAT_MODULE_ORDER[@]}"; do
+  source "$PATH_TO_COAT/modules/${_coat_module}.sh"
+done
+unset _coat_module
 
-# prompt is going last
-source $PATH_TO_COAT/modules/prompt.sh
+# the command log starts after every module is loaded, so loading itself is not counted
+COAT_XP_READY=1

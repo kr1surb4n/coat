@@ -99,26 +99,9 @@ coat_hud_update() {
   fi
 }
 
-# write the command to the log, hand out experience and achievements
-coat_log_command() {
-  local status=$? entry number command amount count hour
-  entry=$(HISTTIMEFORMAT='' builtin history 1 2>/dev/null)
-  read -r number command <<< "$entry"
-
-  # same history entry as last time, nothing new was run
-  [ -n "$number" ] || return 0
-
-  # the first prompt would log a command inherited from the history file
-  if [ -z "${COAT_LOG_READY:-}" ]; then
-    COAT_LOG_READY=1
-    COAT_LAST_HIST=$number
-    return 0
-  fi
-
-  [ "$number" = "${COAT_LAST_HIST:-}" ] && return 0
-  COAT_LAST_HIST=$number
-
-  # empty command line
+# write one command to the log, hand out experience and achievements
+coat_log_entry() {
+  local command=${1:-} status=${2:-0} amount count hour
   [ -n "$command" ] || return 0
 
   # one line per command: when, how it ended, where, what
@@ -145,6 +128,50 @@ coat_log_command() {
   hour=$(printf '%(%H)T' -1); hour=$(( 10#$hour ))
   [ "$hour" -lt 5 ] && coat_achievement night_owl
   return 0
+}
+
+# remember the command line before bash runs it; history settings are irrelevant
+coat_capture_command() {
+  [ -n "${COAT_XP_READY:-}" ] || return 0
+  [ -n "${COAT_IN_CAPTURE:-}" ] && return 0
+  # do not capture the commands that run while the prompt is being built
+  [ -n "${COAT_IN_PROMPT:-}" ] && return 0
+  COAT_IN_CAPTURE=1
+
+  # the prompt hook and the trap itself are not user commands
+  case "$BASH_COMMAND" in
+    coat_prompt_log*|coat_capture_command*)
+      COAT_IN_CAPTURE=
+      return 0
+      ;;
+  esac
+
+  # remember only the first command of a prompt, not every part of a pipeline
+  [ -n "${COAT_PENDING_COMMAND:-}" ] || COAT_PENDING_COMMAND=$BASH_COMMAND
+  COAT_IN_CAPTURE=
+}
+
+# log the command remembered by the DEBUG trap, with the status the prompt saw
+coat_prompt_log() {
+  # the prompt sees the exit status of the last command; capture it first
+  local status=$?
+  local command=${COAT_PENDING_COMMAND:-}
+  COAT_PENDING_COMMAND=
+  COAT_IN_PROMPT=1
+
+  # run the prompt command that was there before Coat, if any
+  if [ -n "${COAT_USER_PROMPT_COMMAND:-}" ]; then
+    eval "$COAT_USER_PROMPT_COMMAND"
+  fi
+  COAT_IN_PROMPT=
+
+  [ -n "$command" ] || return 0
+  coat_log_entry "$command" "$status"
+}
+
+# the old name still works for callers that log the pending command by hand
+coat_log_command() {
+  coat_prompt_log
 }
 
 # show everything that can be earned
@@ -200,5 +227,10 @@ character() {
 # show the heads-up display right away, before the first command
 coat_hud_update
 
-# log every command, once per history entry
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }coat_log_command"
+# interactive shells: capture the command, then log it when the prompt returns
+if [[ $- == *i* ]]; then
+  trap 'coat_capture_command' DEBUG
+  # keep the user's prompt command and run it inside our logger
+  COAT_USER_PROMPT_COMMAND=${PROMPT_COMMAND:-}
+  PROMPT_COMMAND=coat_prompt_log
+fi

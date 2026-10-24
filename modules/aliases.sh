@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
 
-alias inf="uname -sr && uptime| sed 's/ //' && sensors|grep Pack && \
-           lscpu|grep 'CPU MHz:' && acpi && \
-           echo -n 'Memory in use: ' && free -m|grep Mem|\
-           awk '{print \$3+\$5\" megs\"}'"
+# inf: show the system, CPU temperature and memory in use
+inf() {
+  uname -sr && uptime | sed 's/ //' && sensors | grep Pack && \
+    lscpu | grep 'CPU MHz:' && acpi && \
+    echo -n 'Memory in use: ' && free -m | grep Mem | \
+    awk '{print $3+$5" megs"}'
+}
 
 alias zzz="systemctl suspend"
 alias tmux="tmux -u"
@@ -455,8 +458,10 @@ alias rb='ruby'
 alias py='python'
 alias ipy='ipython'
 
-# decimal to hexadecimal value
-alias dec2hex='printf "%x\n" $1'
+# dec2hex: print a decimal number as hexadecimal
+dec2hex() {
+  printf '%x\n' "$1"
+}
 
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"

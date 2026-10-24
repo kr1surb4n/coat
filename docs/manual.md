@@ -313,9 +313,10 @@ Top spells: quest(4) cd(2) mark(1) echo(1)
 | Looter       | take a paczek |
 | Camper       | mark a spot |
 
-The logging is done by `PROMPT_COMMAND`, after the command finishes.  It
-does not change how commands run, and it skips the last command from your
-old history file so old commands are not counted again.
+The logging is done by a `DEBUG` trap that remembers the command and a
+`PROMPT_COMMAND` hook that writes it after the command finishes.  It does
+not read `history`, so `HISTCONTROL`, `HISTIGNORE` and the history file do
+not change what is counted.  Loading modules is not counted.
 
 ## Dungeons
 
@@ -367,17 +368,28 @@ tag with fzf.  `branch` prints the current branch name.
 
 ## Python
 
+> **Work in progress.** This section documents the old helpers so they are
+> not a surprise.  They are being redesigned in
+> `docs/tasks/python-environments.md`; the new interface will prefer a
+> project `.venv`, keep `virtualenv` as one alternative, use `pipx` or
+> `uv tool` for command-line tools, and never silently install into the
+> system Python.
+
 ```
-switchpython          # choose the python version (update-alternatives)
-makevenv              # create a virtualenv in .venv
-makeactive            # activate .venv in this folder
-makeactiver           # mark, walk up to find .venv, activate, go back
-installrequirements   # pip install -r requirements.txt
+switchpython          # choose the global python (update-alternatives, sudo)
+makevenv              # virtualenv $VENV_FOLDER
+makeactive            # source $VENV_FOLDER/bin/activate
+makeactiver           # mark, walk up to .venv, activate, go back
+installrequirements   # pip install -r requirements.txt (global pip)
 black                 # black -Sq
 ```
 
-`makeactiver` is the useful one: it remembers your folder with `mark`,
-walks up until it finds a virtualenv, activates it, and brings you back.
+The current helpers assume one `$VENV_FOLDER` (or a `.venv` somewhere up
+the tree) and a global `pip`.  On Debian/Ubuntu with PEP 668, a global
+`pip install` is refused; use a project virtualenv.  `makeactiver` also
+moves you with `mark`/`goto`, so it has side effects.  The task document
+lists the alternatives (`venv`, `virtualenv`, `pipx`, `uv`, `poetry`,
+`pdm`, `hatch`, `conda`, `pyenv`) and the migration plan.
 
 ## Notes
 
@@ -398,7 +410,7 @@ later.
 fman              # search man pages with fzf
 fkill             # pick a process and kill it (fkill 15 for TERM)
 psgrep word       # grep the process list
-server            # serve the current folder over http
+server            # serve the current folder over http (still Python 2)
 ips               # local addresses
 digga example.org # dns lookup
 t file pattern    # follow the last 50 lines of a file, marking the pattern
@@ -478,8 +490,8 @@ kept, never truncated.
 ## Customising
 
 - **A new alias or function**: put it in a module, or in
-  `modules/aliases.sh` / `modules/bash_functions.sh`.  New files need one
-  `source` line in `coat.sh`.
+  `modules/aliases.sh` / `modules/bash_functions.sh`.  A new file needs an
+  entry in `COAT_MODULE_ORDER` in `coat.sh`; `prompt` stays last.
 - **A new key**: add a `bind -x` line in `modules/shortcuts.sh`.
 - **A new spell**: edit a spell file listed in `MAGIC_BOOKS`, or pick a
   history line with `spellsave`.
@@ -513,6 +525,97 @@ All of this is under `$COAT_STORAGE` (`~/.coat/storage`) unless noted.
 To start a new character, delete `xp`, `xp_count`, `xp.log`,
 `achievements` and `quests`.  To forget where you have been, delete
 `trail`.  Nothing else depends on them.
+
+## Load order
+
+`coat.sh` loads one explicit list, `COAT_MODULE_ORDER`:
+
+```
+variables -> aliases -> bash_functions -> organization -> simplifications ->
+git -> python -> xp -> quest -> dungeon -> spells -> grimoire -> manual ->
+shortcuts -> autocomplete -> prompt
+```
+
+A later module wins over an earlier one.  Inside one file, the last
+definition wins.  `prompt` is always last.  The command log starts after
+every module is loaded, so loading does not earn XP.
+
+This order is also why some aliases do not mean what their first
+definition says.  The detailed list is in `docs/alias-audit.md`.
+
+## Commands Coat changes
+
+These are ordinary commands with a new meaning.  The full table, with the
+file, the line, the condition and the difference, is in
+`docs/overrides.md`.  This is a work in progress: the audit is complete,
+but the decision to keep, remove or move each one is still open.
+
+| Command | What Coat does |
+|---------|----------------|
+| `cd` | a function that saves the folder, writes the trail and prints a listing |
+| `man` | adds colour variables to the pager |
+| `sudo` | enables alias expansion after `sudo` |
+| `chown`, `chmod`, `chgrp` | adds `--preserve-root` |
+| `dmesg` | adds `-T` |
+| `grep`, `egrep`, `fgrep` | adds `--color`; the later `grep` alias drops `GREP_OPTIONS` |
+| `ls`, `dir`, `vdir` | uses `ls -F --color` (and `ls` formats) |
+| `mkdir` | adds `-p` |
+| `du`, `df` | human sizes; `df` also adds the filesystem type |
+| `vi` | uses `nvim` when `vim` is installed |
+| `tmux` | adds `-u` |
+| `black` | adds `-Sq` |
+| `top` | uses `htop` when installed; `top_orig` keeps the old one |
+| `tree` | `tree -Csu`, or a `find` fallback |
+| `ack` | `ack-grep` when installed |
+| `as`, `configure`, `diff`, `dig`, `g++`, `gas`, `gcc`, `head`, `ifconfig`, `ld`, `make`, `mount`, `netstat`, `ping`, `ps`, `tail`, `traceroute`, `syslog` | `grc` colour wrappers, only when `grc` exists and `TERM` is not `dumb` |
+| `runserver`, `server`, `json`, `lc`, `uc`, `urldecode`, `urlencode` | Python helpers; several are still Python 2 |
+
+Use `command ls`, `\ls`, `builtin cd` or `/bin/ls` to get the original
+behaviour.  The difference between an alias and a function matters:
+`\ls` skips an alias, `command ls` skips both, and `builtin cd` skips the
+`cd` function.
+
+## Terminal and history
+
+Coat no longer forces `TERM`.  Your terminal, tmux or ssh should set it.
+If the value is wrong, uncomment one line in `~/.coatrc`:
+
+```
+# export TERM="xterm-256color"      # normal 256-colour xterm
+# export TERM="tmux-256color"       # inside tmux
+# export TERM="screen-256color"     # inside screen, or a tmux that reports screen
+# export TERM="linux"               # the Linux console
+# export TERM="dumb"                # no escape sequences, plain logs
+```
+
+Check a value with `infocmp xterm-256color`.
+
+History is also yours.  The example uses:
+
+```
+export HISTSIZE=-1          # no Bash limit in memory
+export HISTFILESIZE=-1      # no truncation of the history file
+export HISTCONTROL=ignoredups
+export HISTIGNORE=          # collect everything, including ls, pwd and cd
+shopt -s histappend
+```
+
+Bash treats a negative size as unlimited; the real limit is memory and
+disk.  If you want a cap, use a large positive number, for example
+`100000` in memory and `200000` on disk.  `ignoredups` still drops
+consecutive repeats; remove it if you want those too.
+
+## Core and extras (work in progress)
+
+The target is a **core** profile that does not change ordinary commands,
+plus an optional **extras** profile with the aliases, old functions, git
+shortcuts, Python helpers and overrides.  `full` keeps today's behaviour
+for existing users.
+
+This is not implemented yet.  The design, module split, migration and
+tests are in `docs/tasks/core-extras.md`; the issue is ISS-18.  Until it
+lands, `source ~/.coatrc` loads everything, so the table above is the
+honest description of the current shell.
 
 ## Troubleshooting
 

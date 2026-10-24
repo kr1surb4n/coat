@@ -96,6 +96,10 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+# keep the task notes even if a global ignore skips every "tasks" folder
+!docs/tasks/
+!docs/tasks/**
+
 # Sphinx documentation
 docs/_build/
 

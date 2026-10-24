@@ -31,14 +31,24 @@ alias setcurrentbranch='export CURRENT_BRANCH="$(git_branch)"'
 # switch to working / start work
 alias newwork='setcurrentbranch; removeworking; makeworking;'
 
-# squash current branch (working) -> will change all "autosave ..." commits into what have you done
-alias squashcurrent='git rebase -i $(shortlogs | fzf | awk "{print $1}")'
+# squashcurrent: pick a commit and rebase the current branch onto it
+squashcurrent() {
+  local commit
+  commit=$(shortlogs | fzf | awk '{print $1}') || return 0
+  [ -n "$commit" ] || return 0
+  git rebase -i "$commit"
+}
 
 # finish your work, rebase stuff, if you will remember ...
 alias mergeworking='git checkout $CURRENT_BRANCH && git rebase working'
 
 alias branch='git rev-parse --abbrev-ref HEAD 2> /dev/null'
-alias gnb='git checkout -b $1'
+
+# gnb: create a new branch and switch to it
+gnb() {
+  [ -n "${1:-}" ] || { echo "gnb: branch name required" >&2; return 1; }
+  git checkout -b "$1"
+}
 
 
 find_git_branch() {
@@ -126,7 +136,10 @@ alias grv='git remote -v'
 alias gra='git remote add'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias gdv='git diff -w "$@" | vim -R -'
+# gdv: show a whitespace-ignoring diff in vim
+gdv() {
+  git diff -w "$@" | vim -R -
+}
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gcm='git commit -v -m'

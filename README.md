@@ -7,6 +7,12 @@ make the shell feel more like a game and less like a chore.
 It loads from `~/.coatrc`, keeps everything it remembers in plain text
 under `~/.coat/storage`, and never edits your `.bashrc` behind your back.
 
+Coat is currently one profile: everything is loaded.  A **core + extras**
+split is the next product task (`docs/tasks/core-extras.md`): core will
+keep the game and the manual without changing ordinary commands, and
+extras will hold the aliases and overrides.  Until that lands, read
+`docs/overrides.md` to see which basic commands Coat redefines.
+
 The complete manual is [docs/manual.md](docs/manual.md).  Once Coat is
 loaded, run `manual` or press `ALT + m`.
 
@@ -111,11 +117,11 @@ Layout
 ======
 
 ```
-coat.sh              loads the modules, in order
+coat.sh              loads the modules, in the explicit COAT_MODULE_ORDER
 install.sh           links ~/.coat and creates the runtime files
 .coatrc.example      template for the machine specific config
 modules/
-  variables.sh       environment basics (history, terminal, paths)
+  variables.sh       environment basics (paths, pager, colours)
   aliases.sh         the plain aliases
   bash_functions.sh  the plain functions
   organization.sh    marks, bookmarks, the trail
@@ -132,9 +138,29 @@ modules/
   autocomplete.sh    loads the completion files
   prompt.sh          the prompt
 docs/manual.md       the long form manual
+docs/alias-audit.md  duplicate aliases and synonym groups
+docs/overrides.md    every ordinary command Coat changes
+docs/issues.md       the issue list
+docs/tasks/          larger work for the next session
 lib/                 submodules: foxer, paczki
 storage/             runtime data, all plain text, all git ignored
 ```
+
+Load order
+==========
+
+`coat.sh` has one explicit `COAT_MODULE_ORDER`:
+
+```
+variables -> aliases -> bash_functions -> organization -> simplifications ->
+git -> python -> xp -> quest -> dungeon -> spells -> grimoire -> manual ->
+shortcuts -> autocomplete -> prompt
+```
+
+A later module wins.  Inside one file, the last definition wins.  `prompt`
+is always last.  The command log is enabled after every module is loaded,
+so loading does not count as a command.  The duplicate and synonym audit
+is in [docs/alias-audit.md](docs/alias-audit.md).
 
 Where your data lives
 =====================
@@ -157,7 +183,7 @@ Customising
 ===========
 
 - A new function or alias: add it to a module, or make a new module and
-  add one `source` line in `coat.sh`.
+  add it to `COAT_MODULE_ORDER` in `coat.sh`; `prompt` stays last.
 - A new key: one `bind -x` line in `modules/shortcuts.sh`.
 - A new spell: edit a file listed in `MAGIC_BOOKS`, or save a history line
   with `spellsave`.
@@ -181,6 +207,12 @@ Reading order
 Known limits
 ============
 
+- Ordinary commands change meaning: `cd`, `ls`, `grep`, `mkdir`, `man`,
+  `vi`, `top`, `tmux` and others.  See `docs/overrides.md`; use
+  `command`, `builtin` or an absolute path to bypass them.
+- The Python helpers still assume a global `python`/`pip` and one
+  `$VENV_FOLDER`.  They are being redesigned in
+  `docs/tasks/python-environments.md`, not fixed by another alias.
 - `ALT + w` (spellforge) is unfinished; edit the spell files directly.
 - `z` needs `fasd`, which is not installed by default.
 - `dungeon` needs `TMUXP_CONFIGDIR` with at least one yaml layout; the
