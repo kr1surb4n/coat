@@ -293,9 +293,15 @@ exclusive.
 **Full table, definitions, differences and the synonym groups:**
 `docs/alias-audit.md`.
 
+**Decision:** `grep` stays as an override, with the final `grep --color`
+definition as the one that wins. The earlier `GREP_OPTIONS` duplicate is
+still tracked here; removing or reconciling it is part of this issue.
+`cd` is kept as well. The remaining duplicate aliases are still open.
+
 **Fix:** decide, row by row, whether to keep the later definition, remove
-the earlier one, or move the whole group to extras. Then make the audit and
-the code agree. This is a task, not a one-line deletion.
+the earlier one, or rename it. Moving a group to extras is deferred, so no
+group moves there now. Then make the audit and the code agree. This is a
+task, not a one-line deletion.
 
 ### ISS-16 — ordinary commands mean something else
 
@@ -311,7 +317,7 @@ The list of names is:
 | `sudo` | alias `aliases.sh:22` | trailing space, so `sudo ll` expands |
 | `chown`, `chmod`, `chgrp` | aliases `aliases.sh:48-50` | `--preserve-root` |
 | `dmesg` | alias `aliases.sh:53` | `-T` |
-| `grep` | aliases `aliases.sh:56`, `:230` | `--color`; `GREP_OPTIONS` lost |
+| `grep` | aliases `aliases.sh:56`, `:230` | `--color`; `GREP_OPTIONS` lost; **decision: keep** |
 | `mkdir` | alias `aliases.sh:118` | `-p` |
 | `du` | alias `aliases.sh:401` | `-kh` |
 | `df` | alias `aliases.sh:407` | `-kTh` |
@@ -320,7 +326,7 @@ The list of names is:
 | `vi` | alias `bash_functions.sh:20` | `nvim` when `vim` exists |
 | `tmux` | alias `aliases.sh:13` | `-u` |
 | `black` | alias `python.sh:15` | `-Sq` |
-| `cd` | function `bash_functions.sh:69` | saves state, writes trail, prints a listing |
+| `cd` | function `bash_functions.sh:69` | saves state, writes trail, prints a listing; **decision: keep** |
 | `man` | function `bash_functions.sh:420` | colour pager variables |
 | `t` | function `bash_functions.sh:1276` | tail helper; short name |
 | `o` | function `bash_functions.sh:1316` | open helper; still expects macOS `open` |
@@ -339,10 +345,9 @@ add or replace names. The conditional `grc`, `htop`, `tree` and `ack`
 aliases only exist when the listed tool is installed and `TERM` is not
 `dumb`. The detailed per-row condition is in `docs/overrides.md`.
 
-**Fix:** understand which of these are wanted, which move to extras, and
-which are removed. Add the final table to the manual and keep
-`docs/overrides.md` as the detailed reference. This is deliberately a
-work-in-progress: the audit is complete, the decisions are not.
+**Decision:** do not split the overrides now. The single profile stays;
+`cd` and `grep` are explicitly kept. The rest of the list is still open for
+a later cleanup, and this audit is the reference for that work.
 
 ### ISS-17 — Python helpers assume a global Python and `pip`
 
@@ -361,6 +366,10 @@ state, the options (`venv`, `virtualenv`, `pipx`, `uv`, `poetry`, `pdm`,
 recommended model, the migration and the acceptance criteria. `virtualenv`
 stays as one supported alternative.
 
+**Decision:** move the old helpers to the new interface in that task. They
+stay in place for now; the migration will turn them into wrappers, not add
+more aliases.
+
 ### ISS-18 — no core/extras boundary
 
 **Files:** `coat.sh`, every module
@@ -375,6 +384,10 @@ that does not change ordinary commands, an extras profile with the old
 toolbox, and a full profile for existing users. It lists the module split,
 the `COAT_PROFILE` / `COAT_EXTRAS` settings, the migration, the tests and
 the open questions.
+
+**Decision:** do not split the overrides now. The single profile stays;
+`cd` and `grep` are kept. The core/extras design remains a future option,
+not current work.
 
 ---
 

@@ -159,7 +159,7 @@ matching automated cases create the copy themselves.
 | H2 | Archives | `extract file.zip`, `targz folder` | unpack / create archive | manual |
 | H3 | Git flow | temp repo: `gss`, `gitlogs`, `setcurrentbranch`, `newwork`, `mergeworking`, `removeworking` | branch dance works | manual |
 | H4 | Git pickers | `fbr`, `fco`, `choose_branch` | fzf lists branches and switches | manual |
-| H5 | Python | `makevenv`, `makeactive`, `makeactiver` | venv created/activated, returns to the start folder | manual |
+| H5 | Python (old interface) | `makevenv`, `makeactive`, `makeactiver` | venv created/activated, returns to the start folder | manual |
 | H6 | Notes | `note "t" "b"`, `note_show`, `dirtynotes` | note appended/shown | manual |
 | H7 | Small utilities | `calc 3+3`, `passwdgen 8`, `json`, `box`, `whenis "next friday"` | sensible output | manual |
 | H8 | Clipboard | `echo hi \| clip-in; clip-out` | xclip round trip | manual |

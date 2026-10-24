@@ -7,11 +7,11 @@ make the shell feel more like a game and less like a chore.
 It loads from `~/.coatrc`, keeps everything it remembers in plain text
 under `~/.coat/storage`, and never edits your `.bashrc` behind your back.
 
-Coat is currently one profile: everything is loaded.  A **core + extras**
-split is the next product task (`docs/tasks/core-extras.md`): core will
-keep the game and the manual without changing ordinary commands, and
-extras will hold the aliases and overrides.  Until that lands, read
-`docs/overrides.md` to see which basic commands Coat redefines.
+Coat is currently one profile: everything is loaded.  The overrides are
+**not being split now**; `cd` and `grep` are explicitly kept.  A future
+**core + extras** option is described in `docs/tasks/core-extras.md`, but
+it is not current work.  Until then, read `docs/overrides.md` to see which
+basic commands Coat redefines.
 
 The complete manual is [docs/manual.md](docs/manual.md).  Once Coat is
 loaded, run `manual` or press `ALT + m`.
@@ -211,8 +211,9 @@ Known limits
   `vi`, `top`, `tmux` and others.  See `docs/overrides.md`; use
   `command`, `builtin` or an absolute path to bypass them.
 - The Python helpers still assume a global `python`/`pip` and one
-  `$VENV_FOLDER`.  They are being redesigned in
-  `docs/tasks/python-environments.md`, not fixed by another alias.
+  `$VENV_FOLDER`.  The agreed target is the new interface in
+  `docs/tasks/python-environments.md`; the old names will become wrappers,
+  not get more aliases.
 - `ALT + w` (spellforge) is unfinished; edit the spell files directly.
 - `z` needs `fasd`, which is not installed by default.
 - `dungeon` needs `TMUXP_CONFIGDIR` with at least one yaml layout; the

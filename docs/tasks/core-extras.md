@@ -5,6 +5,18 @@ not a quick patch.
 
 Issue: **ISS-18** in `docs/issues.md`.
 
+## Current decision
+
+- **Do not split overrides now.** This document is a design option, not the
+  current change. The single profile stays.
+- **Keep `cd` and `grep`.** They are deliberate overrides, not pending
+  removals.
+- **Python moves to its own interface** in
+  `docs/tasks/python-environments.md`; it is not part of the first
+  core/extras cut.
+- The rest of the split below is still a future direction. Nothing here is
+  implemented by this decision.
+
 ## The problem
 
 Right now Coat is one pile. `source ~/.coatrc` loads every module, and every
@@ -23,8 +35,8 @@ Option B separates the product into:
 - **full** — core plus extras, kept for existing users and for people who
   want the old behaviour.
 
-The default for a new install should be **core**. The old behaviour stays
-available with one line in `.coatrc`.
+The default for a new install **in that future option** should be **core**.
+The old behaviour stays available with one line in `.coatrc`.
 
 ## Principles
 
@@ -197,8 +209,9 @@ branch and the virtualenv, but the prompt helpers live in core.
 2. Put `COAT_PROFILE=full` in the current `.coatrc.example` and in the live
    `.coatrc` for one release. Add a comment: "remove this to try core".
 3. Move the prompt helpers out of `bash_functions.sh` into `core.sh`.
-4. Move the standard-command overrides behind the extras boundary. Start
-   with `cd` and `man`; then the alias file.
+4. **Deferred:** move the standard-command overrides behind the extras
+   boundary. Start with `cd` and `man` only after the decision changes;
+   today `cd` and `grep` are explicitly kept in the default profile.
 5. Make `shortcuts.sh` skip a binding when its function is absent, so core
    does not print "command not found" on a key press.
 6. Make `grimoire` show the loaded profile and mark extras that are not

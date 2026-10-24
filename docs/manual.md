@@ -368,12 +368,11 @@ tag with fzf.  `branch` prints the current branch name.
 
 ## Python
 
-> **Work in progress.** This section documents the old helpers so they are
-> not a surprise.  They are being redesigned in
-> `docs/tasks/python-environments.md`; the new interface will prefer a
-> project `.venv`, keep `virtualenv` as one alternative, use `pipx` or
-> `uv tool` for command-line tools, and never silently install into the
-> system Python.
+> **Work in progress.** The agreed target is the new interface in
+> `docs/tasks/python-environments.md`: a project `.venv`, `virtualenv` as
+> one alternative, `pipx` or `uv tool` for command-line tools, and no
+> silent install into the system Python. The current helpers stay until
+> that task is implemented; the old names will become thin wrappers.
 
 ```
 switchpython          # choose the global python (update-alternatives, sudo)
@@ -575,6 +574,10 @@ behaviour.  The difference between an alias and a function matters:
 `\ls` skips an alias, `command ls` skips both, and `builtin cd` skips the
 `cd` function.
 
+Current decision: **do not split these overrides now**.  The single
+profile stays, and `cd` and `grep` are explicitly kept.  The rest of the
+list is still open for a later cleanup.
+
 ## Terminal and history
 
 Coat no longer forces `TERM`.  Your terminal, tmux or ssh should set it.
@@ -607,15 +610,16 @@ consecutive repeats; remove it if you want those too.
 
 ## Core and extras (work in progress)
 
-The target is a **core** profile that does not change ordinary commands,
-plus an optional **extras** profile with the aliases, old functions, git
-shortcuts, Python helpers and overrides.  `full` keeps today's behaviour
-for existing users.
+The future option is a **core** profile that does not change ordinary
+commands, plus an optional **extras** profile with the aliases, old
+functions, git shortcuts, Python helpers and overrides.  `full` would keep
+today's behaviour for existing users.
 
-This is not implemented yet.  The design, module split, migration and
-tests are in `docs/tasks/core-extras.md`; the issue is ISS-18.  Until it
-lands, `source ~/.coatrc` loads everything, so the table above is the
-honest description of the current shell.
+Current decision: **do not split the overrides now**.  The single profile
+stays, and `cd` and `grep` are kept.  The design, module split, migration
+and tests are in `docs/tasks/core-extras.md`; the issue is ISS-18.  Until
+that future task lands, `source ~/.coatrc` loads everything, so the table
+above is the honest description of the current shell.
 
 ## Troubleshooting
 

@@ -7,6 +7,19 @@ It is allowed to be work in progress: every row should end up as *keep*,
 
 Issue: **ISS-16** in `docs/issues.md`.
 
+## Current decision
+
+- **No overrides split now.** The single profile stays; `cd`, `grep` and the
+  rest are not moved into a separate extras module in this pass.
+- **`cd` stays.** The wrapper keeps its current behaviour; this is a
+  deliberate choice, not an oversight.
+- **`grep` stays.** The colour override stays. The earlier
+  `grep $GREP_OPTIONS` definition is still a duplicate tracked by ISS-15;
+  the final `grep --color` definition is the one that wins.
+- **Python helpers move to the new interface** described in
+  `docs/tasks/python-environments.md`. The old names stay for now and will
+  become thin wrappers when that task is implemented.
+
 The load order in `coat.sh` is:
 
 ```
@@ -38,7 +51,7 @@ These are defined without a test (apart from `vi`, which needs `vim`).
 | `chmod` | `aliases.sh:49` | `chmod` | `chmod --preserve-root` | Refuses `/` as the target. |
 | `chgrp` | `aliases.sh:50` | `chgrp` | `chgrp --preserve-root` | Refuses `/` as the target. |
 | `dmesg` | `aliases.sh:53` | `dmesg` | `dmesg -T` | Human-readable timestamps. |
-| `grep` | `aliases.sh:56` and `:230` | `grep` | `grep --color` | Colour. The first definition uses `$GREP_OPTIONS`; the later one replaces it, so `GREP_OPTIONS` is effectively lost when colour is on. |
+| `grep` | `aliases.sh:56` and `:230` | `grep` | `grep --color` | Colour. The first definition uses `$GREP_OPTIONS`; the later one replaces it, so `GREP_OPTIONS` is effectively lost when colour is on. **Decision: keep.** |
 | `mkdir` | `aliases.sh:118` | `mkdir` | `mkdir -p` | Creates missing parents, never fails when the folder exists. |
 | `du` | `aliases.sh:401` | `du` | `du -kh` | Human sizes, 1024-byte blocks. |
 | `df` | `aliases.sh:407` | `df` | `df -kTh` | Filesystem type and human sizes. |
@@ -48,7 +61,7 @@ These are defined without a test (apart from `vi`, which needs `vim`).
 | `vi` | `bash_functions.sh:20` | `vi` | `nvim` | Only when `vim` is in `PATH`; the check is `which vim`, not `which nvim`. |
 | `tmux` | `aliases.sh:13` | `tmux` | `tmux -u` | Forces UTF-8. |
 | `black` | `python.sh:15` | `black` | `black -Sq` | Skips string normalisation and is quiet. |
-| `cd` | `bash_functions.sh:69` | `cd` | a function | Saves `$BACK`, writes `~/temp/current_dir`, feeds the trail, handles `cd ...`, sources `~/.autoenv` if present, and prints a coloured `ls` listing to stderr after every change. |
+| `cd` | `bash_functions.sh:69` | `cd` | a function | Saves `$BACK`, writes `~/temp/current_dir`, feeds the trail, handles `cd ...`, sources `~/.autoenv` if present, and prints a coloured `ls` listing to stderr after every change. **Decision: keep.** |
 | `man` | `bash_functions.sh:420` | `man` | a function | Sets `LESS_TERMCAP_*` colour variables. |
 | `t` | `bash_functions.sh:1276` | (no standard `t`) | a tail helper | Not an override of a standard command, but it occupies the short name. |
 | `o` | `bash_functions.sh:1316` | (no standard `o`) | open helper | On Linux it still prefers `open`; the detection for `xdg-open` is commented out. |
@@ -90,6 +103,12 @@ about.
 
 ## Functions that look like commands
 
+The Python helpers in this table — including `server`, `json`, `lc`, `uc` and
+`runserver` — are moving to the new interface in
+`docs/tasks/python-environments.md`. They stay in place until that task is
+implemented, then become wrappers or are removed. The other functions below
+are not part of that move.
+
 | Name | Where | What it does | Why it matters |
 |------|-------|--------------|----------------|
 | `cd` | `bash_functions.sh:69` | wraps the builtin and prints a listing | The extra output and the `~/temp/current_dir` / trail writes are visible side effects. Use `builtin cd` to avoid them. |
@@ -100,11 +119,11 @@ about.
 | `json` | `bash_functions.sh:1132` | `python -mjson.tool` | Uses `python`, not `python3`. |
 | `lc`, `uc` | `bash_functions.sh:111`, `:124` | lower/upper case | Python 2 `print` syntax; broken on Python 3. |
 | `runserver` | `bash_functions.sh:40` | `python -m http.server 8000` | Alias; needs `python` on `PATH`. |
-| `switchpython` | `python.sh:4` | `sudo update-alternatives --config python` | Global, sudo, Debian-specific. |
-| `makevenv` | `python.sh:6` | `virtualenv $VENV_FOLDER` | Needs `virtualenv`; ignores `.venv`. |
-| `makeactive` | `python.sh:8` | `source $VENV_FOLDER/bin/activate` | Needs `VENV_FOLDER`. |
-| `makeactiver` | `python.sh:11` | find `.venv` upward and activate | Uses `mark`/`goto` and hardcodes `.venv`. |
-| `installrequirements` | `python.sh:13` | `pip install -r requirements.txt` | Global `pip`; no venv check. |
+| `switchpython` | `python.sh:4` | `sudo update-alternatives --config python` | Global, sudo, Debian-specific. **Decision: move to `pyversion`.** |
+| `makevenv` | `python.sh:6` | `virtualenv $VENV_FOLDER` | Needs `virtualenv`; ignores `.venv`. **Decision: move to `pyvenv`.** |
+| `makeactive` | `python.sh:8` | `source $VENV_FOLDER/bin/activate` | Needs `VENV_FOLDER`. **Decision: move to `pyactivate`.** |
+| `makeactiver` | `python.sh:11` | find `.venv` upward and activate | Uses `mark`/`goto` and hardcodes `.venv`. **Decision: move to `pyactivate`.** |
+| `installrequirements` | `python.sh:13` | `pip install -r requirements.txt` | Global `pip`; no venv check. **Decision: move to `pyrequirements`.** |
 
 ## Things that are *not* overrides
 
@@ -122,13 +141,21 @@ the list so nobody mistakes them for a standard behaviour:
 
 The full duplicate and synonym list is in `docs/alias-audit.md`.
 
-## Open questions
+## Decisions
 
-- Which of these overrides are wanted in the default profile, and which
-  belong to an optional `extras` profile?
-- Should `cd` keep printing the listing? It is the most visible override and
-  the one most likely to surprise a script or a user.
-- Should `grep` keep the colour alias and drop `GREP_OPTIONS`, or should the
-  first definition be removed and the environment variable be documented?
-- Should the Python helpers be fixed in place or moved to the Python task's
-  new interface (`docs/tasks/python-environments.md`)?
+- **Overrides stay in the default profile for now.** There is no extras
+  split in this pass.
+- **`cd` keeps its listing and trail behaviour.** This is intentional.
+- **`grep` keeps the colour override.** The earlier `GREP_OPTIONS`
+  definition is still a duplicate for ISS-15.
+- **Python moves to the new interface** in
+  `docs/tasks/python-environments.md`; the old names will become wrappers.
+
+## Still open
+
+- Which of the remaining overrides (beyond `cd` and `grep`) should be kept,
+  removed or renamed in a later cleanup?
+- Should the duplicate `GREP_OPTIONS` alias be removed, or documented as
+  the first attempt that the final alias replaces?
+- Should `man`, `vi`, `top`, `tmux` and the `grc` wrappers stay in the
+  default profile when the future core/extras work is picked up?

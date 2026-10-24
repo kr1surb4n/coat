@@ -129,7 +129,9 @@ names mean almost the same thing, so the shell has to be learned twice.
 
 ### Python
 
-See `docs/tasks/python-environments.md` for the full redesign task.
+See `docs/tasks/python-environments.md` for the new interface. The decision
+is to **move the old helpers to that interface**, not to add more aliases.
+The old names stay until the task is implemented.
 
 | Names | Operation | Difference |
 |-------|-----------|------------|
@@ -182,16 +184,19 @@ See `docs/tasks/python-environments.md` for the full redesign task.
 | `fman`, `fmans` | man picker | same function, two names |
 | `o`, `open`, `xdg-open` | open a file/URL | `o` calls macOS `open`; Linux needs `xdg-open` |
 
-## Decisions to make
+## Decisions (current)
 
-For each group, choose one of:
+The audit is deliberately a list, not a deletion plan. These decisions are
+recorded now; the rest are still open.
 
-- **keep both** — the names are short and the duplication is harmless;
-- **keep one canonical name** — remove the synonyms and update the manual;
-- **rename** — keep the operation but give it a clearer name;
-- **move to extras** — keep it available, but not in the default profile;
-- **remove** — the operation belongs to another tool or is obsolete.
+| Topic | Decision |
+|-------|----------|
+| overrides split | **Do not split now.** The single profile stays; the aliases and overrides remain in the default shell. |
+| `cd` | **Keep.** The wrapper and its listing/trail behaviour stay. |
+| `grep` | **Keep.** The colour override stays; the earlier `grep $GREP_OPTIONS` definition is still a duplicate for ISS-15. |
+| Python | **Move to the new interface.** `docs/tasks/python-environments.md` is the target; old names become wrappers during migration. |
+| everything else | Still to decide: keep, remove, rename, or future extras. |
 
-The audit is deliberately a list, not a deletion plan. The next step is to
-mark each row `keep`, `remove`, `rename` or `extras`, then make the code
-match the decisions.
+The next step for the remaining rows is to mark each one `keep`, `remove`,
+`rename` or `future extras`, then make the code and the manual agree. That
+is a later task, not part of this pass.

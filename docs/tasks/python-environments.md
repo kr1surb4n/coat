@@ -1,9 +1,13 @@
 # Task: Python environments and packages
 
-Status: **new session task**. Do not solve it by adding one more alias.
-The current Python module is a 2016-era wrapper around a global `python`,
-global `pip` and a single `virtualenv` folder. The rest of the world moved
-to per-project and per-user environments.
+Status: **decision recorded; implementation pending**. Do not solve it by
+adding one more alias. The current Python module is a 2016-era wrapper
+around a global `python`, global `pip` and a single `virtualenv` folder.
+The rest of the world moved to per-project and per-user environments.
+
+Decision: the old helpers move to the new interface described below. They
+stay in place until the implementation lands, then become thin wrappers or
+are removed. No code changes were made in this pass.
 
 Issue: **ISS-17** in `docs/issues.md`.
 
@@ -26,7 +30,7 @@ general interface that:
 - does not change global alternatives with `sudo`;
 - can be tested without touching the real `$HOME` or the real Python.
 
-## Current state
+## Current state (still in the code)
 
 ### `modules/python.sh`
 
@@ -233,13 +237,20 @@ The helper must never guess "the global Python" and must never run `sudo`.
 - `make test`, `make syntax` and `make shellcheck` pass; the Python tests
   do not need network access.
 
+## Decisions already made
+
+- The old names (`makevenv`, `makeactive`, `makeactiver`,
+  `installrequirements`, `switchpython`) stay as documented wrappers
+  during the migration.
+- `virtualenv` remains one supported alternative; it is not removed.
+- No helper calls `sudo update-alternatives` or installs into the system
+  Python.
+
 ## Open questions for the user
 
 - Default backend: `auto`, `venv`, `virtualenv`, or `uv`?
 - Should `uv` be a hard dependency for the fast path, or only an optional
   accelerator?
-- Should the old names (`makevenv`, `makeactive`, `installrequirements`,
-  `switchpython`) be kept as wrappers, or removed immediately?
 - Is `pipx` acceptable as the default for CLI tools, or is `uv tool`
   preferred?
 - Should the helper support `conda`/`mamba`, or is that a separate task?
